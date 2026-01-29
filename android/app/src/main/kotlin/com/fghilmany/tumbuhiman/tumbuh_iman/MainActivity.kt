@@ -1,4 +1,4 @@
-package com.fghilmany.tumbuhiman.tumbuh_iman
+package com.fghilmany.tumbuhiman
 
 import io.flutter.embedding.android.FlutterActivity
 
