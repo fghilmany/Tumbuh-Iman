@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:talker/talker.dart';
+import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:tumbuh_iman/core/constant/url.dart';
 import 'package:tumbuh_iman/data/remote/dialy_habit/meal_nutrition_api_client.dart';
 import 'package:tumbuh_iman/data/remote/prayer_times/prayer_times_api_client.dart';
@@ -10,7 +12,7 @@ import 'package:tumbuh_iman/data/remote/quran/quran_api_client.dart';
 abstract class NetworkModule {
   // Define Network-specific third-party dependencies here
   @lazySingleton
-  Dio dio() {
+  Dio dio(Talker talker) {
     final dio = Dio(
       BaseOptions(
         baseUrl: Url.quranPrayerTimesBaseUrl,
@@ -36,6 +38,11 @@ abstract class NetworkModule {
       },
 
     ));
+
+    dio.interceptors.add(
+      TalkerDioLogger(talker: talker), // ← Use Talker directly
+    );
+
 
     return dio;
   }

@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talker_bloc_logger/talker_bloc_logger.dart';
+import 'package:talker/talker.dart';
 import 'package:tumbuh_iman/di/injection.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
+
+  // Get Talker instance once
+  final talker = getIt<Talker>();
+
+  // Setup BLoC observer
+  Bloc.observer = TalkerBlocObserver(talker: talker);
 
   runApp(const MyApp());
 }
