@@ -1,12 +1,17 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
 import 'package:talker/talker.dart';
 import 'package:tumbuh_iman/di/injection.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  configureDependencies();
+
+  // Initialize EasyLocalization
+  await EasyLocalization.ensureInitialized();
+
+  await configureDependencies();
 
   // Get Talker instance once
   final talker = getIt<Talker>();
@@ -14,7 +19,20 @@ void main() {
   // Setup BLoC observer
   Bloc.observer = TalkerBlocObserver(talker: talker);
 
-  runApp(const MyApp());
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [
+        Locale('en'),
+        Locale('id'),
+      ],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en'),
+      startLocale: const Locale('id'),
+      saveLocale: true,
+      useOnlyLangCode: true,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -24,18 +42,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      onGenerateTitle: (context) => "app_name".tr(),
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -71,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text("app_name".tr()),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -90,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
-          mainAxisAlignment: .center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('You have pushed the button this many times:'),
             Text(
