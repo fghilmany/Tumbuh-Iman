@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "724222720573",
+    "project_id": "tumbuh-iman",
+    "storage_bucket": "tumbuh-iman.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:724222720573:android:3d4093353dee7e2a13c854",
+        "android_client_info": {
+          "package_name": "com.fghilmany.tumbuhiman"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoDK45xKisYAlCMl6-yGR37CKubdagCgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:724222720573:android:9b3f8d365a542bfb13c854",
+        "android_client_info": {
+          "package_name": "com.fghilmany.tumbuhiman.tumbuh_iman"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoDK45xKisYAlCMl6-yGR37CKubdagCgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
