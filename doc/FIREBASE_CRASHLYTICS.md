@@ -1,0 +1,197 @@
+# Firebase Crashlytics Integration
+
+## Overview
+Firebase Crashlytics is integrated following Clean Architecture principles, ensuring proper separation of concerns and testability.
+
+## Architecture Integration
+
+### Layer: Core (`lib/core/services/`)
+- **CrashlyticsService**: Main service wrapping Firebase Crashlytics
+- **Purpose**: Provides a clean interface for crash reporting throughout the app
+- **Scope**: Cross-cutting concern available to all layers
+
+### Dependency Injection
+- **Module**: `lib/di/module/firebase_module.dart`
+- **Registration**: Registered as `@lazySingleton` via Injectable
+- **Resolution**: Available through `getIt<CrashlyticsService>()`
+
+## Usage
+
+### Basic Usage
+```dart
+// Get service from DI
+final crashlytics = getIt<CrashlyticsService>();
+
+// Log custom error
+try {
+  // some code
+} catch (e, stackTrace) {
+  await crashlytics.logError(e, stackTrace, reason: 'Feature X failed');
+}
+
+// Log message
+crashlytics.log('User performed action Y');
+
+// Set user identifier
+await crashlytics.setUserIdentifier('user_123');
+
+// Set custom key
+await crashlytics.setCustomKey('environment', 'production');
+```
+
+### In BLoC/Cubit
+```dart
+@injectable
+class FeatureBloc extends Bloc<FeatureEvent, FeatureState> {
+  final CrashlyticsService _crashlytics;
+  
+  FeatureBloc(this._crashlytics) : super(FeatureInitial()) {
+    on<DoSomethingEvent>(_onDoSomething);
+  }
+  
+  Future<void> _onDoSomething(
+    DoSomethingEvent event,
+    Emitter<FeatureState> emit,
+  ) async {
+    try {
+      // Business logic
+    } catch (e, stackTrace) {
+      _crashlytics.logError(
+        e,
+        stackTrace,
+        reason: 'Failed to do something',
+        fatal: false,
+      );
+      emit(FeatureError(e.toString()));
+    }
+  }
+}
+```
+
+### In Use Cases
+```dart
+@injectable
+class GetDataUseCase {
+  final Repository _repository;
+  final CrashlyticsService _crashlytics;
+  
+  GetDataUseCase(this._repository, this._crashlytics);
+  
+  Future<Either<Failure, Data>> call() async {
+    try {
+      return await _repository.getData();
+    } catch (e, stackTrace) {
+      _crashlytics.logError(
+        e,
+        stackTrace,
+        reason: 'GetDataUseCase failed',
+      );
+      return Left(ServerFailure());
+    }
+  }
+}
+```
+
+## Automatic Error Handling
+
+The service automatically captures:
+- **Flutter Framework Errors**: All uncaught Flutter framework errors via `FlutterError.onError`
+- **Async Errors**: All uncaught asynchronous errors via `PlatformDispatcher.instance.onError`
+
+These are configured during initialization in `main.dart`:
+```dart
+final crashlyticsService = getIt<CrashlyticsService>();
+await crashlyticsService.initialize();
+```
+
+## Testing
+
+When writing tests, you can mock the CrashlyticsService:
+
+```dart
+class MockCrashlyticsService extends Mock implements CrashlyticsService {}
+
+void main() {
+  late MockCrashlyticsService mockCrashlytics;
+  
+  setUp(() {
+    mockCrashlytics = MockCrashlyticsService();
+  });
+  
+  test('should log error when operation fails', () async {
+    // Arrange
+    when(() => mockCrashlytics.logError(any(), any()))
+        .thenAnswer((_) async => {});
+    
+    // Act & Assert
+    // Your test logic
+  });
+}
+```
+
+## Configuration
+
+### Enable/Disable Crashlytics
+```dart
+final crashlytics = getIt<CrashlyticsService>();
+
+// Disable for debug builds
+if (kDebugMode) {
+  await crashlytics.setCrashlyticsCollectionEnabled(false);
+}
+
+// Check if enabled
+final isEnabled = await crashlytics.isCrashlyticsCollectionEnabled();
+```
+
+### Custom Keys for Context
+Add custom keys to provide context for crashes:
+
+```dart
+final crashlytics = getIt<CrashlyticsService>();
+
+// Set app version
+await crashlytics.setCustomKey('app_version', '1.0.0');
+
+// Set user tier
+await crashlytics.setCustomKey('user_tier', 'premium');
+
+// Set feature flags
+await crashlytics.setCustomKey('feature_x_enabled', true);
+```
+
+## Best Practices
+
+1. **Use Descriptive Reasons**: Always provide meaningful reasons when logging errors
+2. **Set User Context**: Set user identifiers and custom keys for better debugging
+3. **Don't Over-Log**: Log meaningful errors, not every exception
+4. **Test with Fatal Errors**: Use `fatal: true` only for critical errors
+5. **Privacy Compliance**: Never log sensitive user data (passwords, tokens, etc.)
+
+## Viewing Crash Reports
+
+1. Open Firebase Console
+2. Navigate to Crashlytics section
+3. View crashes by:
+   - Crash-free users percentage
+   - Total crashes
+   - Individual crash reports with stack traces
+
+## Dependencies
+
+Required packages in `pubspec.yaml`:
+```yaml
+dependencies:
+  firebase_core: ^4.4.0
+  firebase_crashlytics: ^5.0.7
+```
+
+## Android Configuration
+
+Already configured in:
+- `android/app/build.gradle.kts`: Google Services and Crashlytics plugins applied
+- `android/settings.gradle.kts`: Plugin versions declared
+
+## iOS Configuration
+
+Firebase is automatically configured through `firebase_options.dart` generated by FlutterFire CLI.

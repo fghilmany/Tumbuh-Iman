@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
 import 'package:talker/talker.dart';
+import 'package:tumbuh_iman/core/services/crashlytics_service.dart';
 import 'package:tumbuh_iman/di/injection.dart';
 
 void main() async {
@@ -11,7 +12,12 @@ void main() async {
   // Initialize EasyLocalization
   await EasyLocalization.ensureInitialized();
 
+  // Configure dependency injection
   await configureDependencies();
+
+  // Initialize Crashlytics
+  final crashlyticsService = getIt<CrashlyticsService>();
+  await crashlyticsService.initialize();
 
   // Get Talker instance once
   final talker = getIt<Talker>();
