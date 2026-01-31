@@ -23,25 +23,6 @@
           "other_platform_oauth_client": []
         }
       }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:724222720573:android:9b3f8d365a542bfb13c854",
-        "android_client_info": {
-          "package_name": "com.fghilmany.tumbuhiman.tumbuh_iman"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBoDK45xKisYAlCMl6-yGR37CKubdagCgM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
     }
   ],
   "configuration_version": "1"
