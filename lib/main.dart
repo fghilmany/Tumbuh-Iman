@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
 import 'package:talker/talker.dart';
+import 'package:tumbuh_iman/core/obeservers/crashlytics_bloc_observer.dart';
+import 'package:tumbuh_iman/core/services/crashlytics_service.dart';
 import 'package:tumbuh_iman/di/injection.dart';
 
 void main() async {
@@ -12,6 +14,12 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   await configureDependencies();
+
+  // Initialize Crashlytics
+  final crashlyticsService = getIt<CrashlyticsService>();
+  await crashlyticsService.initialize();
+
+  Bloc.observer = CrashlyticsBlocObserver(crashlyticsService);
 
   // Get Talker instance once
   final talker = getIt<Talker>();
@@ -72,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+      throw Exception();
     });
   }
 

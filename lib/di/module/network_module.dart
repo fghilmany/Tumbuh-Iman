@@ -4,6 +4,8 @@ import 'package:injectable/injectable.dart';
 import 'package:talker/talker.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:tumbuh_iman/core/constant/url.dart';
+import 'package:tumbuh_iman/core/interceptors/crashlytics_dio_interceptor.dart';
+import 'package:tumbuh_iman/core/services/crashlytics_service.dart';
 import 'package:tumbuh_iman/data/remote/dialy_habit/meal_nutrition_api_client.dart';
 import 'package:tumbuh_iman/data/remote/prayer_times/prayer_times_api_client.dart';
 import 'package:tumbuh_iman/data/remote/quran/quran_api_client.dart';
@@ -12,7 +14,7 @@ import 'package:tumbuh_iman/data/remote/quran/quran_api_client.dart';
 abstract class NetworkModule {
   // Define Network-specific third-party dependencies here
   @lazySingleton
-  Dio dio(Talker talker) {
+  Dio dio(Talker talker, CrashlyticsService crashlytics) {
     final dio = Dio(
       BaseOptions(
         baseUrl: Url.quranPrayerTimesBaseUrl,
@@ -38,6 +40,8 @@ abstract class NetworkModule {
       },
 
     ));
+
+    dio.interceptors.add(CrashlyticsDioInterceptor(crashlytics));
 
     dio.interceptors.add(
       TalkerDioLogger(talker: talker), // ← Use Talker directly
