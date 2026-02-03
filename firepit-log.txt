@@ -22,7 +22,4 @@ Checking for npm/bin/npm-cli install at /Users/faris/.cache/firebase/tools/lib/n
 Checking for npm/bin/npm-cli install at /Users/faris/.cache/firebase/tools/node_modules/npm/bin/npm-cli
 Checking for npm/bin/npm-cli install at /snapshot/firepit/node_modules/npm/bin/npm-cli
 Found npm/bin/npm-cli install.
-ShellJSInternalError: ENOENT: no such file or directory, unlink '/Users/faris/.cache/firebase/runtime/npm'
-ShellJSInternalError: ENOENT: no such file or directory, unlink '/Users/faris/.cache/firebase/runtime/node.bat'
-ShellJSInternalError: ENOENT: no such file or directory, unlink '/Users/faris/.cache/firebase/runtime/shell.bat'
-ShellJSInternalError: ENOENT: no such file or directory, chmod '/Users/faris/.cache/firebase/runtime/node.js'
+ShellJSInternalError: ENOENT: no such file or directory, chmod '/Users/faris/.cache/firebase/runtime/shell.bat'

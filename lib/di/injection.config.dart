@@ -10,12 +10,14 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i361;
+import 'package:firebase_analytics/firebase_analytics.dart' as _i398;
 import 'package:firebase_core/firebase_core.dart' as _i982;
 import 'package:firebase_crashlytics/firebase_crashlytics.dart' as _i141;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:talker/talker.dart' as _i993;
 
+import '../core/services/analytics_service.dart' as _i267;
 import '../core/services/crashlytics_service.dart' as _i758;
 import '../core/utils/error_handler.dart' as _i240;
 import '../data/local/database/app_database.dart' as _i130;
@@ -49,6 +51,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i141.FirebaseCrashlytics>(
       () => firebaseModule.crashlytics,
     );
+    gh.lazySingleton<_i398.FirebaseAnalytics>(() => firebaseModule.analytics);
+    gh.lazySingleton<_i398.FirebaseAnalyticsObserver>(
+      () => firebaseModule.analyticsObserver,
+    );
     gh.lazySingleton<_i993.Talker>(() => loggerModule.talker());
     gh.lazySingleton<_i758.CrashlyticsService>(
       () => _i758.CrashlyticsService(gh<_i141.FirebaseCrashlytics>()),
@@ -56,6 +62,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(
       () =>
           networkModule.dio(gh<_i993.Talker>(), gh<_i758.CrashlyticsService>()),
+    );
+    gh.lazySingleton<_i267.AnalyticsService>(
+      () => _i267.AnalyticsService(gh<_i398.FirebaseAnalytics>()),
     );
     gh.lazySingleton<_i240.ErrorHandler>(
       () => _i240.ErrorHandler(gh<_i758.CrashlyticsService>()),
