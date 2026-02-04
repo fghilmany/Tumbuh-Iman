@@ -72,6 +72,31 @@ dev_dependencies:
   drift_dev: ^2.14.0
   easy_localization_loader: ^2.0.2
   flutter_launcher_icons: ^0.14.4
+  flutter_gen_runner: ^5.12.0
+
+flutter_gen:
+  output: lib/gen/  # Generated code location
+  line_length: 80
+
+  # Integrations
+  integrations:
+    flutter_svg: true  # You already have flutter_svg
+    lottie: false      # Add if you use Lottie animations
+
+  # Asset settings
+  assets:
+    enabled: true
+    outputs:
+      style: dot-delimiter  # Assets.images.logo
+      package_parameter_enabled: false
+
+  # Font settings
+  fonts:
+    enabled: true
+
+  # Color settings (optional)
+  colors:
+    enabled: false
 
 flutter:
 
@@ -79,6 +104,7 @@ flutter:
 
   assets:
     - assets/icons/
+    - assets/icons/app/
     - assets/translations/
     - assets/fonts/
 
