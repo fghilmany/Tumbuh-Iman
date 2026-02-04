@@ -21,14 +21,12 @@ class SuccessView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.all(AppDimensions.paddingL),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
+      child: Padding(
+        padding: EdgeInsets.all(AppDimensions.paddingM),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
             // Success icon
             Container(
               width: AppDimensions.iconXXL,
@@ -43,7 +41,7 @@ class SuccessView extends StatelessWidget {
                 color: AppColors.success,
               ),
             ),
-            SizedBox(height: AppDimensions.spaceL),
+            SizedBox(height: AppDimensions.spaceM),
 
             // Title
             Text(
@@ -54,7 +52,7 @@ class SuccessView extends StatelessWidget {
 
             // Message
             if (message != null) ...[
-              SizedBox(height: AppDimensions.spaceM),
+              SizedBox(height: AppDimensions.spaceS),
               Text(
                 message!,
                 style: AppTextStyles.body2.copyWith(
@@ -66,7 +64,7 @@ class SuccessView extends StatelessWidget {
 
             // Action button
             if (onAction != null && actionText != null) ...[
-              SizedBox(height: AppDimensions.spaceL),
+              SizedBox(height: AppDimensions.spaceM),
               PrimaryButton(
                 text: actionText!,
                 onPressed: onAction!,
@@ -74,7 +72,6 @@ class SuccessView extends StatelessWidget {
               ),
             ],
           ],
-        ),
         ),
       ),
     );

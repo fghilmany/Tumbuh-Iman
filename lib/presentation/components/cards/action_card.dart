@@ -33,20 +33,21 @@ class ActionCard extends StatelessWidget {
             onTap: onTap,
             borderRadius: BorderRadius.circular(AppDimensions.radiusM),
             child: Padding(
-              padding: EdgeInsets.all(AppDimensions.paddingM),
-              child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
+              padding: EdgeInsets.all(AppDimensions.paddingS),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    child: Icon(
                       icon,
                       color: Colors.white,
                       size: AppDimensions.iconL,
                     ),
-                    SizedBox(height: AppDimensions.spaceS),
-                    Text(
+                  ),
+                  SizedBox(height: AppDimensions.spaceXS),
+                  Flexible(
+                    child: Text(
                       title,
                       style: AppTextStyles.caption.copyWith(
                         color: Colors.white,
@@ -55,8 +56,8 @@ class ActionCard extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

@@ -330,7 +330,6 @@ class _ComponentShowcasePageState extends State<ComponentShowcasePage> {
         ),
         SizedBox(height: AppDimensions.spaceM),
         Container(
-          height: 80,
           padding: EdgeInsets.all(AppDimensions.paddingM),
           decoration: BoxDecoration(
             gradient: AppColors.primaryGradient,

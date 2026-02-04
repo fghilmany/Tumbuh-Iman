@@ -23,19 +23,23 @@ class EmptyState extends StatelessWidget {
     this.illustrationPath, // NEW
     this.onAction,
     this.actionText,
-  }) : assert(icon != null || illustrationPath != null, 'Either icon or illustrationPath must be provided');
+  }) : assert(
+         icon != null || illustrationPath != null,
+         'Either icon or illustrationPath must be provided',
+       );
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(AppDimensions.paddingL),
+        padding: EdgeInsets.all(AppDimensions.paddingM),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Illustration or Icon
             _buildIllustration(),
-            SizedBox(height: AppDimensions.spaceL),
+            SizedBox(height: AppDimensions.spaceM),
 
             // Title
             Text(
@@ -46,7 +50,7 @@ class EmptyState extends StatelessWidget {
 
             // Message
             if (message != null) ...[
-              SizedBox(height: AppDimensions.spaceM),
+              SizedBox(height: AppDimensions.spaceS),
               Text(
                 message!,
                 style: AppTextStyles.body2.copyWith(
@@ -58,7 +62,7 @@ class EmptyState extends StatelessWidget {
 
             // Action button
             if (onAction != null && actionText != null) ...[
-              SizedBox(height: AppDimensions.spaceL),
+              SizedBox(height: AppDimensions.spaceM),
               PrimaryButton(
                 text: actionText!,
                 onPressed: onAction!,
