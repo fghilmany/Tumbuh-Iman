@@ -53,6 +53,8 @@ dependencies:
   firebase_core: ^4.4.0
   firebase_crashlytics: ^5.0.7
   firebase_analytics: ^12.1.1
+
+  # Image
   flutter_svg: ^2.2.3
 
 dev_dependencies:
@@ -69,13 +71,16 @@ dev_dependencies:
   freezed: ^3.0.0
   drift_dev: ^2.14.0
   easy_localization_loader: ^2.0.2
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
 
   uses-material-design:  true
 
   assets:
+    - assets/icons/
     - assets/translations/
+    - assets/fonts/
 
   fonts:
     # Roboto (Primary font)
@@ -97,3 +102,14 @@ flutter:
           weight: 400
         - asset: assets/fonts/Amiri-Bold.ttf
           weight: 700
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+
+  # Release icon
+  image_path: "assets/icons/app_icon.png"
+
+  # Debug icon (with overlay/badge)
+  image_path_android: "assets/icons/app/app_icon_debug.png"
+  image_path_ios: "assets/icons/app/app_icon_debug.png"
