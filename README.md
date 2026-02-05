@@ -90,6 +90,26 @@ Track your health, activities, and hydration while staying aligned with prayer t
 
 ---
 
+### 4. 🛠️ Debug Tools (Developer Only)
+
+Developer tools for debugging, testing, and UI component reference.
+
+**Features:**
+- **Double-Tap Access**: Double-tap anywhere in the app to open Debug Tools
+- **Talker Log Viewer**: View comprehensive application logs with filtering
+- **Component Showcase**: Visual catalog of all UI components
+- **Test Log Generation**: Generate sample logs for testing
+- **App Information**: Environment details and log statistics
+- **Log Management**: Clear log history
+
+**Access Methods:**
+- Double-tap anywhere on any screen
+- Navigate programmatically: `context.push(AppRouterConst.debug)`
+
+See [DEBUG_TOOLS.md](doc/DEBUG_TOOLS.md) for complete documentation.
+
+---
+
 ## Architecture
 
 This project follows **Clean Architecture** principles with the following structure:
@@ -168,8 +188,11 @@ For detailed architecture documentation, see:
 | [ARCHITECTURE.md](doc/ARCHITECTURE.md) | Full architecture guide with examples |
 | [CLEAN_ARCHITECTURE_RECAP.md](doc/CLEAN_ARCHITECTURE_RECAP.md) | Project-specific layer mapping |
 | [clean_architecture.md](doc/clean_architecture.md) | Clean Architecture concepts |
+| [COMPONENTS.md](doc/COMPONENTS.md) | UI components documentation |
+| [DEBUG_TOOLS.md](doc/DEBUG_TOOLS.md) | Debug tools and Talker integration guide |
 | [CONVENTIONAL_COMMITS.md](doc/CONVENTIONAL_COMMITS.md) | Commit message guidelines |
 | [GITFLOW_BRANCHING.md](doc/GITFLOW_BRANCHING.md) | GitFlow branching strategy |
+| [ASSETS.md](doc/ASSETS.md) | Assets management guide |
 
 ---
 
