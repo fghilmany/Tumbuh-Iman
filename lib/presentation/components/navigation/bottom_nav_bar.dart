@@ -28,7 +28,7 @@ class BottomNavBar extends StatelessWidget {
         ],
       ),
       child: SafeArea(
-        child: Container(
+        child: SizedBox(
           height: AppDimensions.bottomNavHeight,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,

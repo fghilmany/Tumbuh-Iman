@@ -11,8 +11,6 @@ import 'package:tumbuh_iman/core/services/crashlytics_service.dart';
 import 'package:tumbuh_iman/di/injection.dart';
 import 'package:tumbuh_iman/firebase_options.dart';
 
-import 'presentation/components/ui_comp_example.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 

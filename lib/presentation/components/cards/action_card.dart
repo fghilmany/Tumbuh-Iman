@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tumbuh_iman/presentation/theme/app_colors.dart';
 import 'package:tumbuh_iman/presentation/theme/app_text_styles.dart';
 import 'package:tumbuh_iman/presentation/theme/app_dimensions.dart';
 
@@ -19,7 +18,7 @@ class ActionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color effectiveColor = color ?? AppColors.primary;
+    final Color effectiveColor = color ?? Colors.transparent;
 
     return Expanded(
       child: Container(
@@ -28,7 +27,7 @@ class ActionCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
         ),
         child: Material(
-          color: Colors.transparent,
+          color: effectiveColor,
           child: InkWell(
             onTap: onTap,
             borderRadius: BorderRadius.circular(AppDimensions.radiusM),

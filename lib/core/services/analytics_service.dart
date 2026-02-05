@@ -1,11 +1,13 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:injectable/injectable.dart';
+import 'package:talker/talker.dart';
 
 @LazySingleton()
 class AnalyticsService {
   final FirebaseAnalytics _analytics;
+  final Talker _talker;
 
-  AnalyticsService(this._analytics);
+  AnalyticsService(this._analytics, this._talker);
 
   Future<void> logEvent({
     required String name,
@@ -65,7 +67,7 @@ class AnalyticsService {
     };
 
     // 🔍 ADD THIS DEBUG LOG
-    print('🔥 Analytics Click: $elementName on $screenName with params: $additionalParams');
+    _talker.log('🔥 Analytics Click: $elementName on $screenName with params: $additionalParams');
 
     await _analytics.logEvent(
       name: 'element_click',
@@ -73,7 +75,7 @@ class AnalyticsService {
     );
 
     // 🔍 ADD THIS CONFIRMATION
-    print('✅ Analytics logged successfully');
+    _talker.log('✅ Analytics logged successfully');
   }
 
   Future<void> logNavigationClick({

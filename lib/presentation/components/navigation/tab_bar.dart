@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tumbuh_iman/presentation/theme/app_colors.dart';
 import 'package:tumbuh_iman/presentation/theme/app_text_styles.dart';
-import 'package:tumbuh_iman/presentation/theme/app_dimensions.dart';
 
 class TabBarCustom extends StatelessWidget {
   final List<String> tabs;

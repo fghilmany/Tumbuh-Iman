@@ -66,7 +66,10 @@ extension GetItInjectableX on _i174.GetIt {
           networkModule.dio(gh<_i993.Talker>(), gh<_i758.CrashlyticsService>()),
     );
     gh.lazySingleton<_i267.AnalyticsService>(
-      () => _i267.AnalyticsService(gh<_i398.FirebaseAnalytics>()),
+      () => _i267.AnalyticsService(
+        gh<_i398.FirebaseAnalytics>(),
+        gh<_i993.Talker>(),
+      ),
     );
     gh.lazySingleton<_i240.ErrorHandler>(
       () => _i240.ErrorHandler(gh<_i758.CrashlyticsService>()),

@@ -49,7 +49,7 @@ class ConfirmDialog extends StatelessWidget {
                 width: AppDimensions.iconXXL,
                 height: AppDimensions.iconXXL,
                 decoration: BoxDecoration(
-                  color: (iconColor ?? AppColors.primary).withOpacity(0.1),
+                  color: (iconColor ?? AppColors.primary).withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
