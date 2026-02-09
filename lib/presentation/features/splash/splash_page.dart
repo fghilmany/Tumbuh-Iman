@@ -67,7 +67,7 @@ class _SplashViewState extends State<_SplashView>
   }
 
   void _navigateToHome(BuildContext context) {
-    // context.go(AppRouterConst.home);
+    context.go(AppRouterConst.home);
   }
 
   @override
