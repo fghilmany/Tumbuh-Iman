@@ -46,16 +46,16 @@ dependencies:
   talker_dio_logger: ^5.1.13
   talker_bloc_logger: ^5.1.13
 
-  # Translation
-  easy_localization: ^3.0.8
-
   # Firebase
   firebase_core: ^4.4.0
   firebase_crashlytics: ^5.0.7
   firebase_analytics: ^12.1.1
+  firebase_remote_config: ^6.1.4
 
   # Image
   flutter_svg: ^2.2.3
+  dev: ^1.0.0
+  shared_preferences: ^2.5.4
 
 dev_dependencies:
   flutter_test:
@@ -70,7 +70,6 @@ dev_dependencies:
   injectable_generator: ^2.4.1
   freezed: ^3.0.0
   drift_dev: ^2.14.0
-  easy_localization_loader: ^2.0.2
   flutter_launcher_icons: ^0.14.4
   flutter_gen_runner: ^5.12.0
 

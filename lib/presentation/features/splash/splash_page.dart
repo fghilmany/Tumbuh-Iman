@@ -1,7 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tumbuh_iman/core/extensions/translations_extenstion.dart';
 import 'package:tumbuh_iman/core/router/app_router_const.dart';
 import 'package:tumbuh_iman/di/injection.dart';
 import 'package:tumbuh_iman/gen/assets.gen.dart';
@@ -67,7 +67,7 @@ class _SplashViewState extends State<_SplashView>
   }
 
   void _navigateToHome(BuildContext context) {
-    context.go(AppRouterConst.home);
+    // context.go(AppRouterConst.home);
   }
 
   @override
@@ -136,7 +136,7 @@ class _SplashViewState extends State<_SplashView>
                 FadeTransition(
                   opacity: _fadeAnimation,
                   child: Text(
-                    "app_name".tr(),
+                    "app_name".tr,
                     style: AppTextStyles.headline2.copyWith(
                       color: AppColors.textOnPrimary,
                       fontWeight: FontWeight.bold,
@@ -150,7 +150,7 @@ class _SplashViewState extends State<_SplashView>
                 FadeTransition(
                   opacity: _fadeAnimation,
                   child: Text(
-                    "app_tagline".tr(),
+                    "app_tagline".tr,
                     style: AppTextStyles.body1.copyWith(
                       color: AppColors.textOnPrimary.withValues(alpha: 0.9),
                     ),

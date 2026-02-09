@@ -1,6 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tumbuh_iman/firebase_options.dart';
 
@@ -23,4 +24,7 @@ abstract class FirebaseModule {
   @lazySingleton
   FirebaseAnalyticsObserver get analyticsObserver =>
       FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance);
+
+  @lazySingleton
+  FirebaseRemoteConfig get remoteConfig => FirebaseRemoteConfig.instance;
 }
