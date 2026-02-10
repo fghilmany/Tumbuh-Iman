@@ -5,6 +5,7 @@ import 'package:tumbuh_iman/presentation/components/navigation/bottom_nav_bar.da
 import 'package:tumbuh_iman/presentation/features/home/bloc/home_bloc.dart';
 import 'package:tumbuh_iman/presentation/features/home/bloc/home_event.dart';
 import 'package:tumbuh_iman/presentation/features/home/bloc/home_state.dart';
+import 'package:tumbuh_iman/presentation/features/quran/quran_screen.dart';
 import 'package:tumbuh_iman/presentation/theme/app_colors.dart';
 
 class HomePage extends StatelessWidget {
@@ -23,7 +24,7 @@ class _HomeView extends StatelessWidget {
   const _HomeView();
 
   static final List<Widget> _pages = [
-    const _HomeTab(),
+    const QuranScreen(),
     const _ExploreTab(),
     const _ProfileTab(),
   ];
@@ -61,25 +62,6 @@ class _HomeView extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-// Home Tab
-class _HomeTab extends StatelessWidget {
-  const _HomeTab();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textOnPrimary,
-      ),
-      body: const Center(
-        child: Text('Home Content'),
-      ),
     );
   }
 }
