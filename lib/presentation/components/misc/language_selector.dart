@@ -117,20 +117,6 @@ class _LanguageSelectorState extends State<LanguageSelector> {
             ],
           ),
         ),
-        PopupMenuItem(
-          value: 'ar',
-          child: Row(
-            children: [
-              const Text('🇸🇦'),
-              const SizedBox(width: AppDimensions.spaceS),
-              const Text('العربية'),
-              if (currentLocale == 'ar') ...[
-                const Spacer(),
-                Icon(Icons.check, color: AppColors.primary, size: 20),
-              ],
-            ],
-          ),
-        ),
       ],
     );
   }
