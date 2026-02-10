@@ -18,16 +18,16 @@ class ActionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color effectiveColor = color ?? Colors.transparent;
+    final Color effectiveColor = color ?? Colors.white.withValues(alpha: 0.2);
 
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.2),
+          color: effectiveColor,
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
         ),
         child: Material(
-          color: effectiveColor,
+          color: Colors.transparent,
           child: InkWell(
             onTap: onTap,
             borderRadius: BorderRadius.circular(AppDimensions.radiusM),
