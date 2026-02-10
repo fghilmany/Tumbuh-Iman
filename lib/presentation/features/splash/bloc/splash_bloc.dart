@@ -1,14 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:talker/talker.dart';
+import 'package:tumbuh_iman/core/utils/result.dart';
 import 'package:tumbuh_iman/presentation/features/splash/bloc/splash_event.dart';
 import 'package:tumbuh_iman/presentation/features/splash/bloc/splash_state.dart';
+import 'package:tumbuh_iman/usecase/quran/get_quran_use_case.dart';
 
 @injectable
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
-  SplashBloc() : super(const SplashInitial()) {
+  SplashBloc(this._getQuranUseCase, this._talker) : super(const SplashInitial()) {
     on<SplashStarted>(_onSplashStarted);
     on<SplashCompleted>(_onSplashCompleted);
   }
+
+  final GetQuranUseCase _getQuranUseCase;
+  final Talker _talker;
 
   Future<void> _onSplashStarted(
     SplashStarted event,
@@ -17,15 +23,23 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     try {
       emit(const SplashLoading());
 
-      // Simulate initialization tasks
-      await Future.delayed(const Duration(milliseconds: 500));
 
       emit(const SplashAnimating());
 
-      // Wait for animation to complete
-      await Future.delayed(const Duration(milliseconds: 2500));
+      final result = await _getQuranUseCase.getSurahList();
 
-      emit(const SplashSuccess());
+      result.when(
+        success: (data) {
+          // Quran data fetched successfully
+          _talker.info(data.toString());
+          emit(const SplashSuccess());
+        },
+
+        failure: (error, _) {
+          emit(SplashError(error.toString()));
+        },
+      );
+
     } catch (e) {
       emit(SplashError(e.toString()));
     }
@@ -37,4 +51,6 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   ) async {
     emit(const SplashSuccess());
   }
+
+
 }
