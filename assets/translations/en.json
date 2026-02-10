@@ -1,5 +1,9 @@
 {
   "app_name": "Tumbuh Iman",
   "welcome_message": "Welcome to Tumbuh Iman!",
-  "app_tagline": "Iman and Amal in one app"
+  "app_tagline": "Iman and Amal in one app",
+  "bismillah": "Bismillah...",
+  "next_prayer_times": "{0} prayer time in",
+  "last_read": "Last Read",
+  "bookmarks": "Bookmarks"
 }
