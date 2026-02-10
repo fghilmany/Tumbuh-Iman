@@ -39,6 +39,7 @@ import '../domain/repositories/quran/quran_repository.dart' as _i336;
 import '../domain/repositories/translation/translations_repositories.dart'
     as _i464;
 import '../presentation/features/home/bloc/home_bloc.dart' as _i366;
+import '../presentation/features/quran/bloc/quran_bloc.dart' as _i734;
 import '../presentation/features/splash/bloc/splash_bloc.dart' as _i4;
 import '../usecase/quran/get_quran_use_case.dart' as _i585;
 import 'module/cache_module.dart' as _i693;
@@ -170,6 +171,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i4.SplashBloc>(
       () => _i4.SplashBloc(gh<_i585.GetQuranUseCase>(), gh<_i993.Talker>()),
+    );
+    gh.factory<_i734.QuranBloc>(
+      () => _i734.QuranBloc(gh<_i585.GetQuranUseCase>()),
     );
     return this;
   }

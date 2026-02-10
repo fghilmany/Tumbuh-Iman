@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tumbuh_iman/core/extensions/translations_extenstion.dart';
+import 'package:tumbuh_iman/di/injection.dart';
 import 'package:tumbuh_iman/gen/assets.gen.dart';
 import 'package:tumbuh_iman/presentation/components/cards/action_card.dart';
 import 'package:tumbuh_iman/presentation/components/cards/info_card.dart';
 import 'package:tumbuh_iman/presentation/components/misc/image_custom.dart';
 import 'package:tumbuh_iman/presentation/components/misc/badge.dart' as custom;
 import 'package:tumbuh_iman/presentation/components/misc/language_selector.dart';
+import 'package:tumbuh_iman/presentation/features/quran/bloc/quran_bloc.dart';
+import 'package:tumbuh_iman/presentation/features/quran/bloc/quran_event.dart';
+import 'package:tumbuh_iman/presentation/features/quran/bloc/quran_state.dart';
 import 'package:tumbuh_iman/presentation/theme/app_colors.dart';
 import 'package:tumbuh_iman/presentation/theme/app_dimensions.dart';
 import 'package:tumbuh_iman/presentation/theme/app_text_styles.dart';
 
 class QuranScreen extends StatelessWidget {
   const QuranScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => getIt<QuranBloc>()..add(const LoadSurahList()),
+      child: const _QuranScreenView(),
+    );
+  }
+}
+
+class _QuranScreenView extends StatelessWidget {
+  const _QuranScreenView();
 
   @override
   Widget build(BuildContext context) {
@@ -89,23 +106,83 @@ class QuranScreen extends StatelessWidget {
                       ),
                       SizedBox(height: AppDimensions.spaceM),
                       Flexible(
-                        child: SingleChildScrollView(
-                          child: ListView(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            children: List.generate(
-                              20,
-                              (index) =>  Padding(
-                                padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingS),
-                                child: InfoCard(
-                                  title: 'Last Read',
-                                  subtitle: 'Al-Fatihah, Ayah 5',
-                                  onTap: () {
+                        child: BlocBuilder<QuranBloc, QuranState>(
+                          builder: (context, state) {
+                            if (state is QuranLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+
+                            if (state is QuranError) {
+                              return Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.error_outline,
+                                      size: 48,
+                                      color: AppColors.error,
+                                    ),
+                                    SizedBox(height: AppDimensions.spaceM),
+                                    Text(
+                                      state.message,
+                                      textAlign: TextAlign.center,
+                                      style: AppTextStyles.body2.copyWith(
+                                        color: AppColors.error,
+                                      ),
+                                    ),
+                                    SizedBox(height: AppDimensions.spaceM),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        context.read<QuranBloc>().add(
+                                          const LoadSurahList(),
+                                        );
+                                      },
+                                      child: const Text('Retry'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+
+                            if (state is QuranLoaded) {
+                              final surahs = state.quranEntity.listSurah;
+
+                              return RefreshIndicator(
+                                onRefresh: () async {
+                                  context.read<QuranBloc>().add(
+                                    const LoadSurahList(),
+                                  );
+                                },
+                                child: ListView.builder(
+                                  itemCount: surahs.length,
+                                  itemBuilder: (context, index) {
+                                    final surah = surahs[index];
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: AppDimensions.paddingS,
+                                      ),
+                                      child: InfoCard(
+                                        title: surah.name,
+                                        subtitle: "surah_ayah".trParams(
+                                          {
+                                            "0": surah.meaning,
+                                            "1": surah.numberOfAyah.toString(),
+                                          }
+                                        ),
+                                        onTap: () {
+                                          // TODO: Navigate to surah detail
+                                        },
+                                      ),
+                                    );
                                   },
                                 ),
-                              ),
-                            ),
-                          ),
+                              );
+                            }
+
+                            return const SizedBox.shrink();
+                          },
                         ),
                       ),
                     ],

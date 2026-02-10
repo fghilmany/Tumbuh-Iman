@@ -19,7 +19,7 @@ extension SurahMapper on SurahModel {
   QuranItemEntity toEntity() {
     return QuranItemEntity(
       id: number,
-      name: name,
+      name: latinName,
       numberOfAyah: numberOfAyah,
       placeOfRevelation: placeOfRevelation,
       meaning: meaning,
