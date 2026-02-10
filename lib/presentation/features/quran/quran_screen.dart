@@ -3,7 +3,6 @@ import 'package:tumbuh_iman/core/extensions/translations_extenstion.dart';
 import 'package:tumbuh_iman/gen/assets.gen.dart';
 import 'package:tumbuh_iman/presentation/components/cards/action_card.dart';
 import 'package:tumbuh_iman/presentation/components/cards/info_card.dart';
-import 'package:tumbuh_iman/presentation/components/misc/icon_custom.dart';
 import 'package:tumbuh_iman/presentation/components/misc/image_custom.dart';
 import 'package:tumbuh_iman/presentation/components/misc/badge.dart' as custom;
 import 'package:tumbuh_iman/presentation/components/misc/language_selector.dart';
