@@ -27,7 +27,7 @@ class InfoCard extends StatelessWidget {
     this.iconColor,
     this.backgroundColor,
     this.showArrow = true,
-  }) : assert(icon != null || iconPath != null, 'Either icon or iconPath must be provided');
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,19 +44,21 @@ class InfoCard extends StatelessWidget {
             padding: EdgeInsets.all(AppDimensions.paddingM),
             child: Row(
               children: [
-                // Icon container
-                Container(
-                  width: AppDimensions.iconXL,
-                  height: AppDimensions.iconXL,
-                  decoration: BoxDecoration(
-                    color: (iconColor ?? AppColors.primary).withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+                // Icon container (only show if icon or iconPath is provided)
+                if (icon != null || iconPath != null) ...[
+                  Container(
+                    width: AppDimensions.iconXL,
+                    height: AppDimensions.iconXL,
+                    decoration: BoxDecoration(
+                      color: (iconColor ?? AppColors.primary).withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+                    ),
+                    child: Center(
+                      child: _buildIcon(),
+                    ),
                   ),
-                  child: Center(
-                    child: _buildIcon(),
-                  ),
-                ),
-                SizedBox(width: AppDimensions.spaceM),
+                  SizedBox(width: AppDimensions.spaceM),
+                ],
 
                 // Content
                 Expanded(
@@ -101,13 +103,16 @@ class InfoCard extends StatelessWidget {
         height: AppDimensions.iconM,
         color: iconColor ?? AppColors.primary,
       );
-    } else {
+    } else if (icon != null) {
       // Use icon
       return Icon(
         icon!,
         color: iconColor ?? AppColors.primary,
         size: AppDimensions.iconM,
       );
+    } else {
+      // No icon provided
+      return const SizedBox.shrink();
     }
   }
 }
