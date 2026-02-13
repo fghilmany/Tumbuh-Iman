@@ -5,7 +5,6 @@ import 'package:tumbuh_iman/data/remote/quran/quran_api_client.dart';
 import 'package:tumbuh_iman/data/remote/quran/quran_remote_data_source.dart';
 
 /// Implementation of QuranRemoteDataSource
-@Injectable(as: QuranRemoteDataSource)
 class QuranRemoteDataSourceImpl implements QuranRemoteDataSource {
   final QuranApiClient _apiClient;
   final Talker _talker;
