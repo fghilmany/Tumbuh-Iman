@@ -5,6 +5,7 @@ import 'package:tumbuh_iman/di/injection.dart';
 import 'package:tumbuh_iman/gen/assets.gen.dart';
 import 'package:tumbuh_iman/presentation/components/cards/action_card.dart';
 import 'package:tumbuh_iman/presentation/components/cards/info_card.dart';
+import 'package:tumbuh_iman/presentation/components/feedback/snackbar_helper.dart';
 import 'package:tumbuh_iman/presentation/components/misc/image_custom.dart';
 import 'package:tumbuh_iman/presentation/components/misc/badge.dart' as custom;
 import 'package:tumbuh_iman/presentation/components/misc/language_selector.dart';
@@ -60,8 +61,16 @@ class _QuranScreenView extends StatelessWidget {
                     top: 0,
                     right: 0,
                     child: LanguageSelector(
-                      onLanguageChanged: (locale) {
-                        print('Language changed to: $locale');
+                      onLanguageChanged: (locale) {;
+                        SnackbarHelper.show(
+                          context,
+                          'language_changed_to'.trParams(
+                            {
+                              '0': locale,
+                            }
+                          ),
+                          type: SnackBarType.success,
+                        );
                       },
                     ),
                   ),
@@ -164,7 +173,7 @@ class _QuranScreenView extends StatelessWidget {
                                         vertical: AppDimensions.paddingS,
                                       ),
                                       child: InfoCard(
-                                        title: surah.name,
+                                        title: "${surah.latinName} (${surah.name})",
                                         subtitle: "surah_ayah".trParams(
                                           {
                                             "0": surah.meaning,

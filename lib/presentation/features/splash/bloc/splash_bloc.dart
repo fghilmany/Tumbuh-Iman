@@ -26,9 +26,9 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
 
       emit(const SplashAnimating());
 
-      final result = await _getQuranUseCase.getSurahList();
+      final result = await _getQuranUseCase.getSurahList(onlyStore: true);
 
-      result.when(
+      result?.when(
         success: (data) {
           // Quran data fetched successfully
           _talker.info(data.toString());

@@ -23,6 +23,10 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
 
     result.when(
       success: (quranEntity) {
+        if (quranEntity == null) {
+          emit(const QuranError('No data available'));
+          return;
+        }
         emit(QuranLoaded(quranEntity: quranEntity));
       },
       failure: (message, exception) {
