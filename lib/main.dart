@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:tumbuh_iman/core/router/app_router.dart';
 import 'package:tumbuh_iman/core/services/analytics_service.dart';
@@ -81,10 +82,23 @@ class MyApp extends StatelessWidget {
     return ListenableBuilder(
       listenable: translationService,
       builder: (context, child) {
+        // Recreate router on locale change to force full rebuild
+        final router = AppRouter.createRouter();
+
         return MaterialApp.router(
+          key: ValueKey(translationService.currentLocale), // Force rebuild on locale change
           title: translationService.translate('app_name', fallback: 'Tumbuh Iman'),
           theme: AppTheme.lightTheme,
-          routerConfig: AppRouter.router,
+          locale: Locale(translationService.currentLocale),
+          supportedLocales: translationService.availableLocales
+              .map((locale) => Locale(locale))
+              .toList(),
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          routerConfig: router,
           debugShowCheckedModeBanner: false,
           builder: (context, child) {
             return TalkerWrapper(

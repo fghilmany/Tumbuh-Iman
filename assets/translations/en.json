@@ -6,5 +6,6 @@
   "next_prayer_times": "{0} prayer time in",
   "last_read": "Last Read",
   "bookmarks": "Bookmarks",
-  "surah_ayah": "{0} • {1} ayah"
+  "surah_ayah": "{0} • {1} ayah",
+  "language_changed_to": "Language changed to {0}"
 }

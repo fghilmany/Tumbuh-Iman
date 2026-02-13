@@ -61,7 +61,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
 
         // Dismiss loading
         if (context.mounted) {
-          Navigator.of(context).pop();
+          Navigator.of(context, rootNavigator: true).pop();
         }
 
         if (success) {

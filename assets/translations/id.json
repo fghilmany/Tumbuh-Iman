@@ -6,5 +6,6 @@
   "next_prayer_times": "Waktu {0} dalam",
   "last_read": "Terakhir Dibaca",
   "bookmarks": "Penanda",
-  "surah_ayah": "{0} • {1} ayat"
+  "surah_ayah": "{0} • {1} ayat",
+  "language_changed_to": "Bahasa diubah ke {0}"
 }
