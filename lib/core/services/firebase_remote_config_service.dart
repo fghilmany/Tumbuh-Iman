@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:talker/talker.dart';
@@ -34,6 +35,13 @@ class FirebaseRemoteConfigService {
         'translations_id': idJson,
         'translation_version': '{"version":"0.0.0","updated_at":"2000-01-01T00:00:00Z","changelog":"Default version"}',
       });
+
+      // Skip Firebase fetch in debug mode - always use assets
+      if (kDebugMode) {
+        _talker.warning('🔧 DEBUG MODE: Using ASSETS only (skipping Firebase)');
+        _talker.info('📦 Using version: 0.0.0 (assets)');
+        return; // Exit early, don't fetch from Firebase
+      }
 
       _talker.info('🔄 Fetching from Firebase...');
 
@@ -83,7 +91,13 @@ class FirebaseRemoteConfigService {
     try {
       _talker.debug('🔍 Getting translation version...');
 
-      // ALWAYS fetch to get latest version
+      // In debug mode, skip fetch and return default version
+      if (kDebugMode) {
+        _talker.debug('🔧 DEBUG: Returning default version (0.0.0)');
+        return _getVersionFromConfig();
+      }
+
+      // Production: ALWAYS fetch to get latest version
       await _ensureFreshFetch();
 
       return _getVersionFromConfig();

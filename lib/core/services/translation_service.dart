@@ -107,18 +107,28 @@ class TranslationService extends ChangeNotifier {
     _setLoading(true);
 
     try {
-      final result = await _repository.getTranslations(locale);
+      final result = await _retryOperation(
+            () => _repository.getTranslations(locale),
+        operationName: 'changeLocale($locale)',
+      );
+
+      if (result == null) {
+        _setLoading(false);
+        return false;
+      }
 
       return result.when(
         success: (data) {
           _currentLocale = locale;
           _currentTranslations = data;
 
+          _talker.info('✅ Locale changed to: $locale (${data.translations.length} keys)');
+          _talker.debug('📋 Sample keys: ${data.translations.keys.take(5).join(', ')}');
+          _talker.debug('📋 Sample translation: ${data.translations.entries.first}');
+
           if (saveToPrefs) {
             _saveLocale(locale);
           }
-
-          _talker.info('✅ Locale changed to: $locale (${data.translations.length} keys)');
 
           _setLoading(false);
           notifyListeners();
@@ -137,6 +147,7 @@ class TranslationService extends ChangeNotifier {
       return false;
     }
   }
+
 
   String getLocaleDisplayName(String locale) {
     switch (locale) {
@@ -164,6 +175,7 @@ class TranslationService extends ChangeNotifier {
 
   String translate(String key, {String? fallback}) {
     if (_currentTranslations == null) {
+      _talker.warning('⚠️ translate() called but _currentTranslations is null for key: $key');
       return fallback ?? key;
     }
 
@@ -174,6 +186,7 @@ class TranslationService extends ChangeNotifier {
       if (value is Map<String, dynamic> && value.containsKey(k)) {
         value = value[k];
       } else {
+        _talker.debug('❌ Key not found: $key (looking for: $k in ${value.runtimeType})');
         return fallback ?? key;
       }
     }
@@ -214,11 +227,20 @@ class TranslationService extends ChangeNotifier {
     _setLoading(true);
 
     try {
-      // Force refresh Remote Config
-      await _remoteConfigService.forceRefresh();
+      await _retryOperation(
+            () => _remoteConfigService.forceRefresh(),
+        operationName: 'forceRefresh',
+      );
 
-      // Reload translations (will detect new version and fetch)
-      final result = await _repository.getTranslations(_currentLocale);
+      final result = await _retryOperation(
+            () => _repository.getTranslations(_currentLocale),
+        operationName: 'refreshTranslations',
+      );
+
+      if (result == null) {
+        _setLoading(false);
+        return false;
+      }
 
       return result.when(
         success: (data) {
@@ -242,6 +264,7 @@ class TranslationService extends ChangeNotifier {
       return false;
     }
   }
+
 
   Future<bool> clearCacheAndReload() async {
     if (!_isInitialized) return false;
@@ -331,4 +354,42 @@ class TranslationService extends ChangeNotifier {
   }
 
   DateTime get lastFetchTime => _remoteConfigService.lastFetchTime;
+
+
+  static const int _maxRetries = 3;
+  static const Duration _retryDelay = Duration(seconds: 2);
+
+  Future<T?> _retryOperation<T>(
+      Future<T> Function() operation, {
+        int maxRetries = _maxRetries,
+        Duration delay = _retryDelay,
+        String operationName = 'operation',
+      }) async {
+    int attempt = 0;
+
+    while (attempt < maxRetries) {
+      try {
+        attempt++;
+        _talker.debug('🔄 $operationName - Attempt $attempt/$maxRetries');
+
+        final result = await operation();
+
+        if (attempt > 1) {
+          _talker.info('✅ $operationName succeeded on attempt $attempt');
+        }
+
+        return result;
+      } catch (e, stackTrace) {
+        if (attempt >= maxRetries) {
+          _talker.error('❌ $operationName failed after $maxRetries attempts', e, stackTrace);
+          rethrow;
+        }
+
+        _talker.warning('⚠️ $operationName failed (attempt $attempt/$maxRetries), retrying in ${delay.inSeconds}s...', e);
+        await Future.delayed(delay);
+      }
+    }
+
+    return null;
+  }
 }
