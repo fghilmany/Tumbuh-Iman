@@ -16,7 +16,7 @@ class QuranRepositoryImpl implements QuranRepository {
       );
 
   @override
-  Future<Result<QuranEntity>> getSurahList() async {
+  Future<Result<QuranEntity?>> getSurahList({bool onlyStore = false}) async {
     try {
       _talker.debug('📖 Starting getSurahList in QuranRepositoryImpl...');
 

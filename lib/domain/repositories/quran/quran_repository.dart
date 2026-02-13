@@ -3,5 +3,5 @@ import 'package:tumbuh_iman/domain/entities/quran/quran_entity.dart';
 
 abstract interface class QuranRepository {
   /// Get list of all surahs (114 surahs)
-  Future<Result<QuranEntity>> getSurahList();
+  Future<Result<QuranEntity?>> getSurahList({bool onlyStore = false});
 }
