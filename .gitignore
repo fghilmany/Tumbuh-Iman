@@ -49,3 +49,25 @@ app.*.map.json
 
 devtools_options.yaml
 lib/gen/
+
+# Generated files
+*.g.dart
+*.config.dart
+*.freezed.dart
+*.gr.dart
+*.mocks.dart
+
+# iOS
+*.ipa
+*.xcuserstate
+*.xcworkspace
+!default.xcworkspace
+
+# Android
+*.apk
+*.ap_
+*.dex
+local.properties
+
+# IDE
+.vscode/
