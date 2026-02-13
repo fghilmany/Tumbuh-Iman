@@ -9,8 +9,8 @@ class GetQuranUseCaseImpl implements GetQuranUseCase {
   GetQuranUseCaseImpl(this._quranRepository);
 
   @override
-  Future<Result<QuranEntity>> getSurahList() {
-    return _quranRepository.getSurahList();
+  Future<Result<QuranEntity?>> getSurahList({bool onlyStore = false}) {
+    return _quranRepository.getSurahList(onlyStore: onlyStore);
   }
 
 }
