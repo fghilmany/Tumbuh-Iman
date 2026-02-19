@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-import 'package:tumbuh_iman/core/router/app_router_const.dart';
+import 'package:tumbuh_iman/core/router/debug/debug_routes_const.dart';
 import 'package:tumbuh_iman/di/injection.dart';
 import 'package:tumbuh_iman/presentation/components/buttons/primary_button.dart';
 import 'package:tumbuh_iman/presentation/components/cards/info_card.dart';
@@ -54,7 +53,7 @@ class DebugPage extends StatelessWidget {
             title: 'View Logs',
             subtitle: 'Open Talker logs viewer',
             onTap: () {
-              context.push(AppRouterConst.talker);
+              context.push(DebugRoutesConst.talker);
             },
           ),
           SizedBox(height: AppDimensions.spaceM),
@@ -66,7 +65,7 @@ class DebugPage extends StatelessWidget {
             title: 'Component Showcase',
             subtitle: 'View all UI components',
             onTap: () {
-              context.push(AppRouterConst.componentShowcase);
+              context.push(DebugRoutesConst.componentShowcase);
             },
           ),
           SizedBox(height: AppDimensions.spaceM),
