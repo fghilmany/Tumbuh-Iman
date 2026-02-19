@@ -40,7 +40,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             Text(
               subTittle!,
               style: AppTextStyles.body2.copyWith(
-                color: AppColors.textOnPrimary.withOpacity(0.7),
+                color: AppColors.textOnPrimary.withValues(alpha: 0.7),
               ),
             ),
         ],
