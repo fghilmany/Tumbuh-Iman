@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tumbuh_iman/core/extensions/translations_extenstion.dart';
+import 'package:tumbuh_iman/core/router/app_router_const.dart';
 import 'package:tumbuh_iman/di/injection.dart';
 import 'package:tumbuh_iman/gen/assets.gen.dart';
 import 'package:tumbuh_iman/presentation/components/cards/action_card.dart';
@@ -181,7 +183,7 @@ class _QuranScreenView extends StatelessWidget {
                                           }
                                         ),
                                         onTap: () {
-                                          // TODO: Navigate to surah detail
+                                          context.push(AppRouterConst.quran.detail(surah.id.toString()));
                                         },
                                       ),
                                     );
