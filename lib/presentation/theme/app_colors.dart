@@ -108,6 +108,12 @@ class AppColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
+  /// Primary Light gradient - green leaves
+  static const LinearGradient primaryLightGradient = LinearGradient(
+    colors: [Color(0x7195C88D), Color(0xFF95C88D)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
 
   /// Quran gradient - book with leaves
   static const LinearGradient quranGradient = LinearGradient(
