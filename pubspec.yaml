@@ -108,6 +108,7 @@ flutter:
     - assets/translations/
     - assets/fonts/
     - assets/vector/
+    - assets/image/
 
   fonts:
     # Roboto (Primary font)

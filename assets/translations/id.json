@@ -7,5 +7,7 @@
   "last_read": "Terakhir Dibaca",
   "bookmarks": "Penanda",
   "surah_ayah": "{0} • {1} ayat",
-  "language_changed_to": "Bahasa diubah ke {0}"
+  "language_changed_to": "Bahasa diubah ke {0}",
+  "bookmark": "Tandai",
+  "un_bookmark": "Hapus Tanda"
 }
