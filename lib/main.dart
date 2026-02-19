@@ -82,9 +82,6 @@ class MyApp extends StatelessWidget {
     return ListenableBuilder(
       listenable: translationService,
       builder: (context, child) {
-        // Recreate router on locale change to force full rebuild
-        final router = AppRouter.createRouter();
-
         return MaterialApp.router(
           key: ValueKey(translationService.currentLocale), // Force rebuild on locale change
           title: translationService.translate('app_name', fallback: 'Tumbuh Iman'),
@@ -98,7 +95,7 @@ class MyApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          routerConfig: router,
+          routerConfig: AppRouter.router, // Use single router instance
           debugShowCheckedModeBanner: false,
           builder: (context, child) {
             return TalkerWrapper(

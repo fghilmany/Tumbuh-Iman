@@ -1,11 +1,11 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:talker_flutter/talker_flutter.dart';
 import 'package:tumbuh_iman/core/router/app_router_const.dart';
+import 'package:tumbuh_iman/core/router/debug/debug_routes.dart';
+import 'package:tumbuh_iman/core/router/debug/debug_routes_const.dart';
+import 'package:tumbuh_iman/core/router/quran/quran_routes.dart';
 import 'package:tumbuh_iman/di/injection.dart';
-import 'package:tumbuh_iman/presentation/features/debug/component_showcase_page.dart';
-import 'package:tumbuh_iman/presentation/features/debug/debug_page.dart';
 import 'package:tumbuh_iman/presentation/features/home/home_page.dart';
 import 'package:tumbuh_iman/presentation/features/splash/splash_page.dart';
 
@@ -30,25 +30,13 @@ class AppRouter {
               path: AppRouterConst.home,
               name: AppRouterConst.getRouteWithoutSlash(AppRouterConst.home),
               builder: (context, state) => const HomePage(),
+              routes: [
+
+              ]
             ),
-            GoRoute(
-              path: AppRouterConst.debug,
-              name: AppRouterConst.getRouteWithoutSlash(AppRouterConst.debug),
-              builder: (context, state) => const DebugPage(),
-            ),
-            GoRoute(
-              path: AppRouterConst.talker,
-              name: AppRouterConst.getRouteWithoutSlash(AppRouterConst.talker),
-              builder: (context, state) {
-                final talker = getIt<Talker>();
-                return TalkerScreen(talker: talker);
-              },
-            ),
-            GoRoute(
-              path: AppRouterConst.componentShowcase,
-              name: AppRouterConst.getRouteWithoutSlash(AppRouterConst.componentShowcase),
-              builder: (context, state) => const ComponentShowcasePage(),
-            ),
+
+            ...QuranRoutes.getRoutes(),
+            ...DebugRoutes.getRoutes(),
           ],
         ),
       ],
@@ -76,7 +64,7 @@ class DoubleTapNavigator extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onLongPress: () {
-        context.push(AppRouterConst.debug);
+        context.push(DebugRoutesConst.debug);
       },
       child: child,
     );
