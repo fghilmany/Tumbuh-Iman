@@ -17,10 +17,26 @@ class QuranDetailLoading extends QuranDetailState {
 
 class QuranDetailLoaded extends QuranDetailState {
   final SurahEntity surahEntity;
-  const QuranDetailLoaded({required this.surahEntity});
+  final String? playingAudioUrl;
+
+  const QuranDetailLoaded({
+    required this.surahEntity,
+    this.playingAudioUrl,
+  });
+
+  QuranDetailLoaded copyWith({
+    SurahEntity? surahEntity,
+    String? playingAudioUrl,
+    bool clearAudio = false,
+  }) {
+    return QuranDetailLoaded(
+      surahEntity: surahEntity ?? this.surahEntity,
+      playingAudioUrl: clearAudio ? null : (playingAudioUrl ?? this.playingAudioUrl),
+    );
+  }
 
   @override
-  List<Object?> get props => [surahEntity];
+  List<Object?> get props => [surahEntity, playingAudioUrl];
 }
 
 class QuranDetailError extends QuranDetailState {
@@ -30,3 +46,5 @@ class QuranDetailError extends QuranDetailState {
   @override
   List<Object?> get props => [message];
 }
+
+

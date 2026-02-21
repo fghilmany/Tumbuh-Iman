@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tumbuh_iman/core/utils/result.dart';
@@ -9,10 +12,28 @@ import 'package:tumbuh_iman/usecase/quran/get_quran_use_case.dart';
 class QuranDetailBloc extends Bloc<QuranDetailEvent, QuranDetailState>{
   final GetQuranUseCase _getQuranUseCase;
 
-
   QuranDetailBloc(this._getQuranUseCase) : super(const QuranDetailInitial()) {
     on<LoadAyahList>(_onLoadAyahList);
+    on<PlayAyahAudio>(_onPlayAyahAudio);
+    on<StopAyahAudio>(_onStopAyahAudio);
+    on<AudioCompleted>(_onAudioCompleted);
   }
+
+  AudioPlayer? _audioPlayer;
+  StreamSubscription? _playerSubscription;
+
+  AudioPlayer get _player {
+    if (_audioPlayer == null) {
+      _audioPlayer = AudioPlayer();
+      _playerSubscription = _audioPlayer!.onPlayerStateChanged.listen((playerState) {
+        if (playerState == PlayerState.completed) {
+          add(const AudioCompleted());
+        }
+      });
+    }
+    return _audioPlayer!;
+  }
+
 
   Future<void> _onLoadAyahList(
       LoadAyahList event,
@@ -34,5 +55,46 @@ class QuranDetailBloc extends Bloc<QuranDetailEvent, QuranDetailState>{
         emit(QuranDetailError(message));
       },
     );
+  }
+
+  Future<void> _onPlayAyahAudio(
+    PlayAyahAudio event,
+    Emitter<QuranDetailState> emit,
+  ) async {
+    final currentState = state;
+    if (currentState is! QuranDetailLoaded) return;
+    emit(currentState.copyWith(playingAudioUrl: event.audioUrl));
+    try {
+      await _player.stop();
+      await _player.play(UrlSource(event.audioUrl));
+    } catch (e) {
+      emit(QuranDetailError('Failed to play audio: $e'));
+    }
+  }
+
+  Future<void> _onStopAyahAudio(
+    StopAyahAudio event,
+    Emitter<QuranDetailState> emit,
+  ) async {
+    final currentState = state;
+    if (currentState is! QuranDetailLoaded) return;
+    emit(currentState.copyWith(clearAudio: true));
+    await _player.stop();
+  }
+
+  Future<void> _onAudioCompleted(
+    AudioCompleted event,
+    Emitter<QuranDetailState> emit,
+  ) async {
+    final currentState = state;
+    if (currentState is! QuranDetailLoaded) return;
+    emit(currentState.copyWith(clearAudio: true));
+  }
+
+  @override
+  Future<void> close() {
+    _playerSubscription?.cancel();
+    _audioPlayer?.dispose();
+    return super.close();
   }
 }

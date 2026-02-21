@@ -16,3 +16,19 @@ class LoadAyahList extends QuranDetailEvent {
   List<Object?> get props => [surahId];
 }
 
+class PlayAyahAudio extends QuranDetailEvent {
+  final String audioUrl;
+  const PlayAyahAudio(this.audioUrl);
+
+  @override
+  List<Object?> get props => [audioUrl];
+}
+
+class StopAyahAudio extends QuranDetailEvent {
+  const StopAyahAudio();
+}
+
+class AudioCompleted extends QuranDetailEvent {
+  const AudioCompleted();
+}
+

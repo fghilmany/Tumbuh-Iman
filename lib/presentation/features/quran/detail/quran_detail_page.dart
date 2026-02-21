@@ -181,6 +181,7 @@ class _QuranDetailScreenView extends StatelessWidget {
                         itemCount: state.surahEntity.listAyah.length,
                         itemBuilder: (context, index) {
                           final ayah = state.surahEntity.listAyah[index];
+                          final isPlaying = state.playingAudioUrl == ayah.audioUrl;
                           return Column(
                             children: [
                               Row(
@@ -228,10 +229,18 @@ class _QuranDetailScreenView extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      // Handle play action
+                                      final audioUrl = ayah.audioUrl;
+                                      if (audioUrl == null) return;
+                                      if (isPlaying) {
+                                        context.read<QuranDetailBloc>().add(const StopAyahAudio());
+                                      } else {
+                                        context.read<QuranDetailBloc>().add(PlayAyahAudio(audioUrl));
+                                      }
                                     },
                                     child: Icon(
-                                      Icons.play_circle_outline,
+                                      isPlaying
+                                          ? Icons.stop_circle_outlined
+                                          : Icons.play_circle_outline,
                                       color: AppColors.textPrimary,
                                       size: AppDimensions.iconM,
                                     ),
