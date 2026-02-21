@@ -1,5 +1,6 @@
 import 'package:tumbuh_iman/data/local/quran/dao/quran_dao.dart';
 import 'package:tumbuh_iman/domain/entities/quran/quran_entity.dart';
+import 'package:tumbuh_iman/domain/entities/quran/surah_entity.dart';
 
 /// Abstract interface for Quran local data source
 abstract interface class QuranLocalDataSource {
@@ -26,4 +27,13 @@ abstract interface class QuranLocalDataSource {
 
   /// Check if database has data
   Future<bool> hasData();
+
+  /// Get surah details by id
+  Future<SurahWithDetails?> getSurahById(int surahNumber);
+
+  /// store ayahs
+  Future<void> storeAyahs(SurahEntity surah);
+
+  /// Check if database has ayahs for a surah
+  Future<bool> hasAyahsForSurah(int surahNumber);
 }

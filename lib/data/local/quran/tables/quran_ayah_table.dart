@@ -23,7 +23,10 @@ class QuranAyahTable extends Table {
   TextColumn get latinText => text()();
 
   // Indonesian translation
-  TextColumn get translationId => text().nullable()();
+  TextColumn get translationId => text()();
+
+  // Arabic text of the ayah
+  TextColumn get audioUrls => text().nullable()();
 
   // Timestamps
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();

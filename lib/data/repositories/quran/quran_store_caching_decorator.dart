@@ -39,7 +39,21 @@ class QuranStoreCachingDecorator implements QuranRepository {
   }
 
   @override
-  Future<Result<SurahEntity?>> getSurahById(int id) {
-    return _wrapped.getSurahById(id);
+  Future<Result<SurahEntity?>> getSurahById(int id) async {
+    final hasAyahs = await _localDataSource.hasAyahsForSurah(id);
+    if (hasAyahs) {
+      final localData = await _localDataSource.getSurahById(id);
+      return Result.success(localData?.toEntity());
+    }
+    final result = await  _wrapped.getSurahById(id);
+    result.when(
+      success: (data) async {
+        if (data != null){
+          await _localDataSource.storeAyahs(data);
+        }
+      },
+      failure: (_, _) {},
+    );
+    return result;
   }
 }

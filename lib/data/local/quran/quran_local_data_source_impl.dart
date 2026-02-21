@@ -4,6 +4,7 @@ import 'package:tumbuh_iman/data/local/database/app_database.dart';
 import 'package:tumbuh_iman/data/local/quran/dao/quran_dao.dart';
 import 'package:tumbuh_iman/data/local/quran/quran_local_data_source.dart';
 import 'package:tumbuh_iman/domain/entities/quran/quran_entity.dart';
+import 'package:tumbuh_iman/domain/entities/quran/surah_entity.dart';
 
 class QuranLocalDataSourceImpl implements QuranLocalDataSource {
   final AppDatabase _database;
@@ -26,13 +27,15 @@ class QuranLocalDataSourceImpl implements QuranLocalDataSource {
       // Get each surah with its details (ayahs and audio)
       final surahDetailsList = <SurahWithDetails>[];
       for (final surah in surahs) {
-        final details = await _database.quranDao.getSurahWithDetails(surah.surahNumber);
+        final details = await _database.quranDao.getSurahWithDetails(
+            surah.surahNumber);
         if (details != null) {
           surahDetailsList.add(details);
         }
       }
 
-      _talker.info('✅ Found ${surahDetailsList.length} surahs with details in database');
+      _talker.info(
+          '✅ Found ${surahDetailsList.length} surahs with details in database');
       return surahDetailsList;
     } catch (e, stackTrace) {
       _talker.error('❌ Error getting cached surah list', e, stackTrace);
@@ -100,7 +103,8 @@ class QuranLocalDataSourceImpl implements QuranLocalDataSource {
       }
 
       // Get the first bookmarked surah with details
-      final details = await _database.quranDao.getSurahWithDetails(surahs.first.surahNumber);
+      final details = await _database.quranDao.getSurahWithDetails(
+          surahs.first.surahNumber);
 
       if (details == null) {
         throw Exception('Surah details not found');
@@ -141,7 +145,8 @@ class QuranLocalDataSourceImpl implements QuranLocalDataSource {
       }
 
       // Get surah with all details (ayahs and audio)
-      final details = await _database.quranDao.getSurahWithDetails(surah.surahNumber);
+      final details = await _database.quranDao.getSurahWithDetails(
+          surah.surahNumber);
 
       if (details != null) {
         _talker.info('✅ Found last read surah: ${details.surah.nameLatin}');
@@ -157,9 +162,11 @@ class QuranLocalDataSourceImpl implements QuranLocalDataSource {
   @override
   Future<void> setLastReadSurah(int surahNumber, {int? ayahNumber}) async {
     try {
-      _talker.debug('📍 Setting last read surah: $surahNumber, ayah: $ayahNumber');
+      _talker.debug(
+          '📍 Setting last read surah: $surahNumber, ayah: $ayahNumber');
 
-      await _database.quranDao.setLastReadSurah(surahNumber, ayahNumber: ayahNumber);
+      await _database.quranDao.setLastReadSurah(
+          surahNumber, ayahNumber: ayahNumber);
 
       _talker.info('✅ Set last read surah');
     } catch (e, stackTrace) {
@@ -179,4 +186,66 @@ class QuranLocalDataSourceImpl implements QuranLocalDataSource {
     }
   }
 
+  @override
+  Future<SurahWithDetails?> getSurahById(int surahNumber) async {
+    try {
+      _talker.debug('🔍 Getting surah details for surah number $surahNumber...');
+
+      final details = await _database.quranDao.getSurahWithDetails(surahNumber);
+
+      if (details == null) {
+        _talker.debug('No details found for surah number $surahNumber');
+      } else {
+        _talker.info('✅ Found details for surah: ${details.surah.nameLatin}');
+      }
+
+      return details;
+    } catch (e, stackTrace) {
+      _talker.error('❌ Error getting surah details', e, stackTrace);
+      return null;
+    }
+  }
+
+  @override
+  Future<void> storeAyahs(SurahEntity surah) async {
+    try {
+      _talker.debug('💾 Caching ${surah.listAyah.length} ayahs for surah ${surah
+          .name} to database...');
+
+      // Convert models to database companions
+      final List<QuranAyahTableCompanion> companions = surah.listAyah.map((
+          ayah) {
+        return QuranAyahTableCompanion.insert(
+          surahNumber: surah.id,
+          ayahNumber: ayah.id,
+          arabicText: ayah.arabText,
+          translationId: ayah.translation,
+          latinText: ayah.arabText,
+          audioUrls: Value(ayah.audioUrl),
+        );
+      }).toList();
+
+      // Insert all ayahs
+      await _database.quranAyahDao.insertOrUpdateAyahs(companions);
+
+      _talker.info('✅ Cached ${surah.listAyah.length} ayahs for surah ${surah
+          .name} to database');
+    } catch (e, stackTrace) {
+      _talker.error(
+          '❌ Error caching ayahs for surah ${surah.name}', e, stackTrace);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool> hasAyahsForSurah(int surahNumber) async {
+    try {
+      final hasAyahs = await _database.quranAyahDao.hasAyahsForSurah(
+          surahNumber);
+      return hasAyahs;
+    } catch (e, stackTrace) {
+      _talker.error('❌ Error checking if database has data', e, stackTrace);
+      return false;
+    }
+  }
 }

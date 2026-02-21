@@ -93,5 +93,14 @@ class QuranAyahDao extends DatabaseAccessor<AppDatabase> with _$QuranAyahDaoMixi
         .watch();
   }
 
+  /// Check if ayah by surah id number exists
+  Future<bool> hasAyahsForSurah(int surahNumber) async {
+    final count = await (selectOnly(quranAyahTable)
+      ..addColumns([quranAyahTable.id.count()])
+      ..where(quranAyahTable.surahNumber.equals(surahNumber)))
+        .getSingle();
+    return (count.read(quranAyahTable.id.count()) ?? 0) > 0;
+  }
+
 }
 

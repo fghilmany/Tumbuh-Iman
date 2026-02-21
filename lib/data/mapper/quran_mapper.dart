@@ -53,6 +53,26 @@ extension SurahListToQuranEntity on List<SurahWithDetails>? {
   }
 }
 
+extension AyahToEntity on SurahWithDetails {
+  SurahEntity toEntity() {
+    return SurahEntity(
+      id: surah.surahNumber,
+      name: surah.name,
+      latinName: surah.nameLatin,
+      meaning: surah.meaning,
+      numberOfAyahs: surah.numberOfAyah,
+      revelationPlace: surah.placeOfRevelation,
+      listAyah: ayahs.map((ayah) => AyahEntity(
+        id: ayah.ayahNumber,
+        arabText: ayah.arabicText,
+        latinText: ayah.latinText,
+        translation: ayah.translationId,
+        audioUrl: ayah.audioUrls,
+      )).toList(),
+    );
+  }
+}
+
 extension QuranDetailResponseMapper on SurahDetailModel {
   SurahEntity toEntity() {
     return SurahEntity(
