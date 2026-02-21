@@ -110,7 +110,7 @@ class AppColors {
   );
   /// Primary Light gradient - green leaves
   static const LinearGradient primaryLightGradient = LinearGradient(
-    colors: [Color(0x7195C88D), Color(0xFF95C88D)],
+    colors: [Color(0x0395c88d), Color(0xFF95C88D)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );

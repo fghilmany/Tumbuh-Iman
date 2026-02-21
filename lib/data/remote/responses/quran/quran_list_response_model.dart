@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:tumbuh_iman/data/models/quran/surah_model.dart';
+import 'package:tumbuh_iman/data/remote/responses/quran/surah_model.dart';
 
 part 'quran_list_response_model.g.dart';
 

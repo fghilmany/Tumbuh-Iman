@@ -1,6 +1,4 @@
 import 'package:tumbuh_iman/data/local/quran/dao/quran_dao.dart';
-import 'package:tumbuh_iman/data/models/quran/quran_list_response_model.dart';
-import 'package:tumbuh_iman/data/models/quran/surah_model.dart';
 import 'package:tumbuh_iman/domain/entities/quran/quran_entity.dart';
 
 /// Abstract interface for Quran local data source

@@ -3,6 +3,7 @@ import 'package:tumbuh_iman/core/utils/result.dart';
 import 'package:tumbuh_iman/data/mapper/quran_mapper.dart';
 import 'package:tumbuh_iman/data/remote/quran/quran_remote_data_source.dart';
 import 'package:tumbuh_iman/domain/entities/quran/quran_entity.dart';
+import 'package:tumbuh_iman/domain/entities/quran/surah_entity.dart';
 import 'package:tumbuh_iman/domain/repositories/quran/quran_repository.dart';
 
 class QuranRepositoryImpl implements QuranRepository {
@@ -33,4 +34,25 @@ class QuranRepositoryImpl implements QuranRepository {
       return Result.failure(e.toString());
     }
   }
+
+  @override
+  Future<Result<SurahEntity?>> getSurahById(int id) async {
+    try {
+      _talker.debug('📖 Starting getSurahById in QuranRepositoryImpl...');
+
+      final response = await _remoteDataSource.getSurahById(id);
+      final surahEntity = response.data.toEntity();
+      _talker.info('✅ Successfully converted response to SurahEntity');
+      return Result.success(surahEntity);
+    } catch (e, stackTrace) {
+      _talker.error(
+        '❌ Error in getSurahById',
+        e,
+        stackTrace,
+      );
+      return Result.failure(e.toString());
+    }
+  }
+
+
 }

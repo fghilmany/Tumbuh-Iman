@@ -1,8 +1,12 @@
 import 'package:tumbuh_iman/data/local/quran/dao/quran_dao.dart';
-import 'package:tumbuh_iman/data/models/quran/quran_list_response_model.dart';
-import 'package:tumbuh_iman/data/models/quran/surah_model.dart';
+import 'package:tumbuh_iman/data/remote/responses/quran/ayah_model.dart';
+import 'package:tumbuh_iman/data/remote/responses/quran/quran_list_response_model.dart';
+import 'package:tumbuh_iman/data/remote/responses/quran/surah_detail_model.dart';
+import 'package:tumbuh_iman/data/remote/responses/quran/surah_model.dart';
+import 'package:tumbuh_iman/domain/entities/quran/ayah_entity.dart';
 import 'package:tumbuh_iman/domain/entities/quran/quran_entity.dart';
 import 'package:tumbuh_iman/domain/entities/quran/quran_item_entity.dart';
+import 'package:tumbuh_iman/domain/entities/quran/surah_entity.dart';
 
 extension QuranListResponseMapper on QuranListResponseModel {
   QuranEntity toEntity() {
@@ -48,3 +52,30 @@ extension SurahListToQuranEntity on List<SurahWithDetails>? {
         )).toList());
   }
 }
+
+extension QuranDetailResponseMapper on SurahDetailModel {
+  SurahEntity toEntity() {
+    return SurahEntity(
+      id: number,
+      name: name,
+      latinName: latinName,
+      meaning: meaning,
+      numberOfAyahs: numberOfAyah,
+      revelationPlace: placeOfRevelation,
+      listAyah: ayat.map((ayah) => ayah.toEntity()).toList(),
+    );
+  }
+}
+
+extension AyahMapper on AyahModel {
+  AyahEntity toEntity() {
+    return AyahEntity(
+      id: number,
+      arabText: arabicText,
+      latinText: latinText,
+      translation: indonesianText,
+      audioUrl: audio["01"],
+    );
+  }
+}
+

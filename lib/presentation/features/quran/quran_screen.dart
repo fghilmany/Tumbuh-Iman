@@ -183,7 +183,7 @@ class _QuranScreenView extends StatelessWidget {
                                           }
                                         ),
                                         onTap: () {
-                                          context.push(AppRouterConst.quran.detail(surah.id.toString()));
+                                          context.push(AppRouterConst.quran.detail(surah.id));
                                         },
                                       ),
                                     );
