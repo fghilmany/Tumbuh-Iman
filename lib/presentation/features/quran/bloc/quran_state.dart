@@ -24,6 +24,14 @@ class QuranLoaded extends QuranState {
     required this.quranEntity,
   });
 
+  QuranLoaded copyWith({
+    int? navigateToSurahId,
+  }) {
+    return QuranLoaded(
+      quranEntity: quranEntity,
+    );
+  }
+
   @override
   List<Object?> get props => [quranEntity];
 }
@@ -36,3 +44,31 @@ class QuranError extends QuranState {
   @override
   List<Object?> get props => [message];
 }
+
+class QuranLastReadToDetail extends QuranState {
+  final int quranId;
+
+  const QuranLastReadToDetail(this.quranId);
+
+  @override
+  List<Object?> get props => [quranId];
+}
+
+class QuranBookmarkedToDetail extends QuranState {
+  final int quranId;
+
+  const QuranBookmarkedToDetail(this.quranId);
+
+  @override
+  List<Object?> get props => [quranId];
+}
+
+class QuranNotFound extends QuranState {
+  final String message;
+
+  const QuranNotFound(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+

@@ -56,4 +56,48 @@ class QuranStoreCachingDecorator implements QuranRepository {
     );
     return result;
   }
+
+  @override
+  Future<Result<int>> getBookmarkedSurahId() async {
+    try {
+      final data = await _localDataSource.getBookmarkedSurahs();
+      return Result.success(data);
+    } catch (e) {
+      return Result.failure(e.toString());
+    }
+  }
+
+  @override
+  Future<Result<int>> getLastReadSurahId() async {
+    try {
+      final data = await _localDataSource.getLastReadSurah();
+      if (data == null) {
+        return Result.failure('No last read surah found');
+      }
+      return Result.success(data.surah.surahNumber);
+    } catch (e) {
+      return Result.failure(e.toString());
+    }
+  }
+
+  @override
+  Future<Result<void>> setBookmarkStatus(int surahNumber, bool isBookmarked) async {
+    try {
+
+      await _localDataSource.updateBookmarkStatus(surahNumber, isBookmarked);
+      return const Result.success(null);
+    } catch (e) {
+      return Result.failure(e.toString());
+    }
+  }
+
+  @override
+  Future<Result<void>> setLastReadSurah(int surahNumber, {int? ayahNumber}) async {
+    try {
+      await _localDataSource.setLastReadSurah(surahNumber, ayahNumber: ayahNumber);
+      return const Result.success(null);
+    } catch (e) {
+      return Result.failure(e.toString());
+    }
+  }
 }

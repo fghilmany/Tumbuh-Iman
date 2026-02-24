@@ -17,6 +17,7 @@ class QuranDetailBloc extends Bloc<QuranDetailEvent, QuranDetailState>{
     on<PlayAyahAudio>(_onPlayAyahAudio);
     on<StopAyahAudio>(_onStopAyahAudio);
     on<AudioCompleted>(_onAudioCompleted);
+    on<ToggleBookmark>(_onToggleBookmark);
   }
 
   AudioPlayer? _audioPlayer;
@@ -41,6 +42,9 @@ class QuranDetailBloc extends Bloc<QuranDetailEvent, QuranDetailState>{
       ) async {
     emit(const QuranDetailLoading());
 
+    // Store last read surah every time detail is opened
+    await _getQuranUseCase.setLastReadSurah(event.surahId);
+
     final result = await _getQuranUseCase.getSurahById(event.surahId);
 
     result.when(
@@ -55,6 +59,17 @@ class QuranDetailBloc extends Bloc<QuranDetailEvent, QuranDetailState>{
         emit(QuranDetailError(message));
       },
     );
+  }
+
+  Future<void> _onToggleBookmark(
+    ToggleBookmark event,
+    Emitter<QuranDetailState> emit,
+  ) async {
+    final currentState = state;
+    if (currentState is! QuranDetailLoaded) return;
+    final newBookmarkStatus = !currentState.isBookmarked;
+    emit(currentState.copyWith(isBookmarked: newBookmarkStatus));
+    await _getQuranUseCase.setBookmarkStatus(event.surahId, newBookmarkStatus);
   }
 
   Future<void> _onPlayAyahAudio(

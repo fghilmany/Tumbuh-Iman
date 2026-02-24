@@ -18,25 +18,29 @@ class QuranDetailLoading extends QuranDetailState {
 class QuranDetailLoaded extends QuranDetailState {
   final SurahEntity surahEntity;
   final String? playingAudioUrl;
+  final bool isBookmarked;
 
   const QuranDetailLoaded({
     required this.surahEntity,
     this.playingAudioUrl,
+    this.isBookmarked = false,
   });
 
   QuranDetailLoaded copyWith({
     SurahEntity? surahEntity,
     String? playingAudioUrl,
     bool clearAudio = false,
+    bool? isBookmarked,
   }) {
     return QuranDetailLoaded(
       surahEntity: surahEntity ?? this.surahEntity,
       playingAudioUrl: clearAudio ? null : (playingAudioUrl ?? this.playingAudioUrl),
+      isBookmarked: isBookmarked ?? this.isBookmarked,
     );
   }
 
   @override
-  List<Object?> get props => [surahEntity, playingAudioUrl];
+  List<Object?> get props => [surahEntity, playingAudioUrl, isBookmarked];
 }
 
 class QuranDetailError extends QuranDetailState {

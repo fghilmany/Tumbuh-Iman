@@ -10,5 +10,8 @@
   "language_changed_to": "Bahasa diubah ke {0}",
   "bookmark": "Tandai",
   "un_bookmark": "Hapus Tanda",
-  "ayah": "{0} ayat"
+  "ayah": "{0} ayat",
+  "no_data_available": "Tidak ada data tersedia",
+  "no_latest_read_surah": "Tidak ada surah terakhir dibaca",
+  "no_bookmarked_surah": "Tidak ada surah yang ditandai"
 }

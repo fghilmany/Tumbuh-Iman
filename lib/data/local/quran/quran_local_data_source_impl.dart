@@ -89,18 +89,11 @@ class QuranLocalDataSourceImpl implements QuranLocalDataSource {
   }
 
   @override
-  Future<SurahWithDetails> getBookmarkedSurahs() async {
+  Future<int> getBookmarkedSurahs() async {
     try {
       _talker.debug('📚 Getting bookmarked surahs...');
 
       final surahs = await _database.quranDao.getBookmarkedSurahs();
-
-      if (surahs.isEmpty) {
-        _talker.debug('No bookmarked surahs found');
-        // Return empty SurahWithDetails - this should probably be List<SurahWithDetails>
-        // but following the interface signature
-        throw Exception('No bookmarked surahs found');
-      }
 
       // Get the first bookmarked surah with details
       final details = await _database.quranDao.getSurahWithDetails(
@@ -111,7 +104,7 @@ class QuranLocalDataSourceImpl implements QuranLocalDataSource {
       }
 
       _talker.info('✅ Found bookmarked surah: ${details.surah.nameLatin}');
-      return details;
+      return details.surah.surahNumber;
     } catch (e, stackTrace) {
       _talker.error('❌ Error getting bookmarked surahs', e, stackTrace);
       rethrow;
@@ -121,7 +114,7 @@ class QuranLocalDataSourceImpl implements QuranLocalDataSource {
   @override
   Future<void> updateBookmarkStatus(int surahNumber, bool isBookmarked) async {
     try {
-      _talker.debug('🔖 Updating bookmark status for surah $surahNumber...');
+      _talker.debug('🔖 Clearing previous bookmarks and updating bookmark status for surah $surahNumber...');
 
       await _database.quranDao.updateBookmarkStatus(surahNumber, isBookmarked);
 
@@ -163,7 +156,7 @@ class QuranLocalDataSourceImpl implements QuranLocalDataSource {
   Future<void> setLastReadSurah(int surahNumber, {int? ayahNumber}) async {
     try {
       _talker.debug(
-          '📍 Setting last read surah: $surahNumber, ayah: $ayahNumber');
+          '📍 Clearing previous last read and setting last read surah: $surahNumber, ayah: $ayahNumber');
 
       await _database.quranDao.setLastReadSurah(
           surahNumber, ayahNumber: ayahNumber);

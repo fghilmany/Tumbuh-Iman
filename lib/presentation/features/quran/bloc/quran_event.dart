@@ -13,3 +13,11 @@ class LoadSurahList extends QuranEvent {
   const LoadSurahList();
 }
 
+class GetLastReadSurahId extends QuranEvent {
+  const GetLastReadSurahId();
+}
+
+class GetBookmarkedSurahId extends QuranEvent {
+  const GetBookmarkedSurahId();
+}
+

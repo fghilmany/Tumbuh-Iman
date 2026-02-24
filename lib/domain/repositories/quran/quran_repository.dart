@@ -8,4 +8,16 @@ abstract interface class QuranRepository {
 
   /// Get detail of a surah by its number
   Future<Result<SurahEntity?>> getSurahById(int id);
+
+  /// Set bookmark status of a surah
+  Future<Result<void>> setBookmarkStatus(int surahNumber, bool isBookmarked);
+
+  /// Get bookmarked surahs
+  Future<Result<int>> getBookmarkedSurahId();
+
+  /// Set last read surah
+  Future<Result<void>> setLastReadSurah(int surahNumber, {int? ayahNumber});
+
+  /// Get last read surah
+  Future<Result<int>> getLastReadSurahId();
 }

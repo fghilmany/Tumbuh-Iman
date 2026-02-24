@@ -54,5 +54,25 @@ class QuranRepositoryImpl implements QuranRepository {
     }
   }
 
+  @override
+  Future<Result<int>> getBookmarkedSurahId() async {
+    return Result.failure('Remote data source does not support bookmarks');
+  }
+
+  @override
+  Future<Result<int>> getLastReadSurahId() async {
+    return Result.failure('Remote data source does not support last read');
+  }
+
+  @override
+  Future<Result<void>> setBookmarkStatus(int surahNumber, bool isBookmarked) async {
+    return Result.failure('Remote data source does not support bookmarks');
+  }
+
+  @override
+  Future<Result<void>> setLastReadSurah(int surahNumber, {int? ayahNumber}) async {
+    return Result.failure('Remote data source does not support last read');
+  }
+
 
 }

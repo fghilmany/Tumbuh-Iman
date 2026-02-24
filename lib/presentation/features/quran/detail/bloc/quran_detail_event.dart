@@ -32,3 +32,11 @@ class AudioCompleted extends QuranDetailEvent {
   const AudioCompleted();
 }
 
+class ToggleBookmark extends QuranDetailEvent {
+  final int surahId;
+  const ToggleBookmark(this.surahId);
+
+  @override
+  List<Object?> get props => [surahId];
+}
+

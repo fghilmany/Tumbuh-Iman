@@ -10,6 +10,9 @@ import 'package:tumbuh_iman/presentation/features/home/home_page.dart';
 import 'package:tumbuh_iman/presentation/features/splash/splash_page.dart';
 
 class AppRouter {
+  static final RouteObserver<ModalRoute<void>> routeObserver =
+      RouteObserver<ModalRoute<void>>();
+
   static GoRouter createRouter() {
     return GoRouter(
       initialLocation: '/',
@@ -42,6 +45,7 @@ class AppRouter {
       ],
       observers: [
         getIt<FirebaseAnalyticsObserver>(),
+        routeObserver,
       ],
     );
   }

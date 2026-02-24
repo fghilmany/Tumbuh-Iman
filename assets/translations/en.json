@@ -10,5 +10,8 @@
   "language_changed_to": "Language changed to {0}",
   "bookmark": "Bookmark",
   "un_bookmark": "Un-bookmark",
-  "ayah": "{0} ayah"
+  "ayah": "{0} ayah",
+  "no_data_available": "No data available",
+  "no_latest_read_surah": "No latest read surah",
+  "no_bookmarked_surah": "No bookmarked surah"
 }

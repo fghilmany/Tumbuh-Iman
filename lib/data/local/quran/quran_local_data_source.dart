@@ -14,7 +14,7 @@ abstract interface class QuranLocalDataSource {
   Future<void> deleteAllQuran();
 
   /// Get bookmarked surahs
-  Future<SurahWithDetails> getBookmarkedSurahs();
+  Future<int> getBookmarkedSurahs();
 
   /// Update bookmark status
   Future<void> updateBookmarkStatus(int surahNumber, bool isBookmarked);

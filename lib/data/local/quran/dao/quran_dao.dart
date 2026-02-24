@@ -111,23 +111,34 @@ class QuranDao extends DatabaseAccessor<AppDatabase> with _$QuranDaoMixin {
     });
   }
 
-  /// Update bookmark status
-  Future<int> updateBookmarkStatus(int surahNumber, bool isBookmarked) {
-    return (update(quranSurahTable)
-          ..where((t) => t.surahNumber.equals(surahNumber)))
-        .write(QuranSurahTableCompanion(
-      isBookmarked: Value(isBookmarked),
-      updatedAt: Value(DateTime.now()),
+  /// Clear all bookmark statuses
+  Future<int> clearAllBookmarks() {
+    return (update(quranSurahTable)..where((t) => t.isBookmarked.equals(true)))
+        .write(const QuranSurahTableCompanion(
+      isBookmarked: Value(false),
     ));
+  }
+
+  /// Update bookmark status
+  Future<void> updateBookmarkStatus(int surahNumber, bool isBookmarked) async {
+    // First, clear all existing bookmarks
+    await clearAllBookmarks();
+
+    // Then set the new bookmark if requested
+    if (isBookmarked) {
+      await (update(quranSurahTable)
+            ..where((t) => t.surahNumber.equals(surahNumber)))
+          .write(QuranSurahTableCompanion(
+        isBookmarked: Value(isBookmarked),
+        updatedAt: Value(DateTime.now()),
+      ));
+    }
   }
 
   /// Set last read surah
   Future<void> setLastReadSurah(int surahNumber, {int? ayahNumber}) async {
-    // First, clear all last read flags
-    await (update(quranSurahTable)..where((t) => t.isLastRead.equals(true)))
-        .write(const QuranSurahTableCompanion(
-      isLastRead: Value(false),
-    ));
+    // First, clear all existing last read flags
+    await clearAllLastRead();
 
     // Then set the new last read surah
     await (update(quranSurahTable)
@@ -136,6 +147,14 @@ class QuranDao extends DatabaseAccessor<AppDatabase> with _$QuranDaoMixin {
       isLastRead: const Value(true),
       lastReadAyah: Value(ayahNumber),
       updatedAt: Value(DateTime.now()),
+    ));
+  }
+
+  /// Clear all last read statuses
+  Future<int> clearAllLastRead() {
+    return (update(quranSurahTable)..where((t) => t.isLastRead.equals(true)))
+        .write(const QuranSurahTableCompanion(
+      isLastRead: Value(false),
     ));
   }
 

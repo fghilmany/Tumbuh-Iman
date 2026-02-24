@@ -11,6 +11,8 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
 
   QuranBloc(this._getQuranUseCase) : super(const QuranInitial()) {
     on<LoadSurahList>(_onLoadSurahList);
+    on<GetLastReadSurahId>(_onGetLastReadSurahId);
+    on<GetBookmarkedSurahId>(_onGetBookmarkedSurahId);
   }
 
   Future<void> _onLoadSurahList(
@@ -31,6 +33,46 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
       },
       failure: (message, exception) {
         emit(QuranError(message));
+      },
+    );
+  }
+
+  Future<void> _onGetLastReadSurahId(
+    GetLastReadSurahId event,
+    Emitter<QuranState> emit,
+  ) async {
+    final currentState = state;
+    if (currentState is! QuranLoaded) return;
+
+    final result = await _getQuranUseCase.getLastReadSurahId();
+    result.when(
+      success: (id) {
+        emit(QuranLastReadToDetail(id));
+        emit(currentState);
+      },
+      failure: (_, __) {
+        emit(const QuranNotFound('No latest read surah'));
+        emit(currentState);
+      },
+    );
+  }
+
+  Future<void> _onGetBookmarkedSurahId(
+    GetBookmarkedSurahId event,
+    Emitter<QuranState> emit,
+  ) async {
+    final currentState = state;
+    if (currentState is! QuranLoaded) return;
+
+    final result = await _getQuranUseCase.getBookmarkedSurahId();
+    result.when(
+      success: (id) {
+        emit(QuranBookmarkedToDetail(id));
+        emit(currentState);
+      },
+      failure: (_, __) {
+        emit(const QuranNotFound('No bookmarked surah'));
+        emit(currentState);
       },
     );
   }

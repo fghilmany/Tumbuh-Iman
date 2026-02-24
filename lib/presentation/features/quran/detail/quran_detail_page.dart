@@ -58,12 +58,17 @@ class _QuranDetailScreenView extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButtonCustom(
-          icon: Icons.bookmark_outline,
-          label: "bookmark".tr,
-          isExtended: true,
-          onPressed: () {
-            // Handle bookmark action
+        floatingActionButton: BlocBuilder<QuranDetailBloc, QuranDetailState>(
+          builder: (context, state) {
+            if (state is! QuranDetailLoaded) return const SizedBox.shrink();
+            return FloatingActionButtonCustom(
+              icon: state.isBookmarked ? Icons.bookmark : Icons.bookmark_outline,
+              label: "bookmark".tr,
+              isExtended: true,
+              onPressed: () {
+                context.read<QuranDetailBloc>().add(ToggleBookmark(state.surahEntity.id));
+              },
+            );
           },
         ),
         body: SingleChildScrollView(
