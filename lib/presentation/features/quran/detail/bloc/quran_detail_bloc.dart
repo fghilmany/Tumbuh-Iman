@@ -9,7 +9,7 @@ import 'package:tumbuh_iman/presentation/features/quran/detail/bloc/quran_detail
 import 'package:tumbuh_iman/usecase/quran/get_quran_use_case.dart';
 
 @injectable
-class QuranDetailBloc extends Bloc<QuranDetailEvent, QuranDetailState>{
+class QuranDetailBloc extends Bloc<QuranDetailEvent, QuranDetailState> {
   final GetQuranUseCase _getQuranUseCase;
 
   QuranDetailBloc(this._getQuranUseCase) : super(const QuranDetailInitial()) {
@@ -26,7 +26,9 @@ class QuranDetailBloc extends Bloc<QuranDetailEvent, QuranDetailState>{
   AudioPlayer get _player {
     if (_audioPlayer == null) {
       _audioPlayer = AudioPlayer();
-      _playerSubscription = _audioPlayer!.onPlayerStateChanged.listen((playerState) {
+      _playerSubscription = _audioPlayer!.onPlayerStateChanged.listen((
+        playerState,
+      ) {
         if (playerState == PlayerState.completed) {
           add(const AudioCompleted());
         }
@@ -35,11 +37,10 @@ class QuranDetailBloc extends Bloc<QuranDetailEvent, QuranDetailState>{
     return _audioPlayer!;
   }
 
-
   Future<void> _onLoadAyahList(
-      LoadAyahList event,
-      Emitter<QuranDetailState> emit,
-      ) async {
+    LoadAyahList event,
+    Emitter<QuranDetailState> emit,
+  ) async {
     emit(const QuranDetailLoading());
 
     // Store last read surah every time detail is opened
@@ -53,7 +54,12 @@ class QuranDetailBloc extends Bloc<QuranDetailEvent, QuranDetailState>{
           emit(const QuranDetailError('No data available'));
           return;
         }
-        emit(QuranDetailLoaded(surahEntity: surahEntity));
+        emit(
+          QuranDetailLoaded(
+            surahEntity: surahEntity,
+            isBookmarked: surahEntity.isBookmarked ?? false,
+          ),
+        );
       },
       failure: (message, exception) {
         emit(QuranDetailError(message));

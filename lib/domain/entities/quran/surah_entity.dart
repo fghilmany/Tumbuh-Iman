@@ -8,6 +8,7 @@ class SurahEntity {
   final int numberOfAyahs;
   final String revelationPlace;
   final List<AyahEntity> listAyah;
+  final bool? isBookmarked;
 
   SurahEntity({
     required this.id,
@@ -17,5 +18,6 @@ class SurahEntity {
     required this.numberOfAyahs,
     required this.revelationPlace,
     required this.listAyah,
+    this.isBookmarked,
   });
 }

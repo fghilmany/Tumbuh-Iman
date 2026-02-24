@@ -62,6 +62,7 @@ extension AyahToEntity on SurahWithDetails {
       meaning: surah.meaning,
       numberOfAyahs: surah.numberOfAyah,
       revelationPlace: surah.placeOfRevelation,
+      isBookmarked: surah.isBookmarked,
       listAyah: ayahs.map((ayah) => AyahEntity(
         id: ayah.ayahNumber,
         arabText: ayah.arabicText,
