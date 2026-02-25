@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tumbuh_iman/core/router/app_router_const.dart';
+import 'package:tumbuh_iman/presentation/features/quran/calc/quran_calc_page.dart';
 import 'package:tumbuh_iman/presentation/features/quran/detail/quran_detail_page.dart';
 
 class QuranRoutes {
@@ -16,6 +17,11 @@ class QuranRoutes {
           if (id == null) return const SizedBox.shrink();
           return QuranDetailPage(surahId: id);
         },
+      ),
+      GoRoute(
+        path: AppRouterConst.quran.calcPattern,
+        name: AppRouterConst.getRouteWithoutSlash(AppRouterConst.quran.calcPattern),
+        builder: (context, state) => const QuranCalcPage(),
       ),
     ];
   }

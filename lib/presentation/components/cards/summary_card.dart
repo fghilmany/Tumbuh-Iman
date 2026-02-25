@@ -7,12 +7,14 @@ import 'package:tumbuh_iman/presentation/theme/app_decorations.dart';
 class SummaryCard extends StatelessWidget {
   final String title;
   final List<SummaryItem> items;
+  final String? viewAllText;
   final VoidCallback? onViewAll;
 
   const SummaryCard({
     super.key,
     required this.title,
     required this.items,
+    this.viewAllText,
     this.onViewAll,
   });
 
@@ -34,7 +36,7 @@ class SummaryCard extends StatelessWidget {
                   TextButton(
                     onPressed: onViewAll,
                     child: Text(
-                      'View All',
+                      viewAllText ?? 'View All',
                       style: AppTextStyles.caption.copyWith(
                         color: AppColors.primary,
                       ),
