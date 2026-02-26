@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tumbuh_iman/core/extensions/translations_extenstion.dart';
 import 'package:tumbuh_iman/di/injection.dart';
 import 'package:tumbuh_iman/presentation/components/cards/summary_card.dart';
 import 'package:tumbuh_iman/presentation/components/inputs/text_field_custom.dart';
@@ -46,16 +47,22 @@ class _QuranCalcView extends StatelessWidget {
             color: AppColors.background,
             child: Column(
               children: [
-                Text("Read Quran Calculator", style: AppTextStyles.headline3),
+                Text("quran_calc_title".tr, style: AppTextStyles.headline3),
                 SizedBox(height: AppDimensions.spaceM),
                 Text(
-                  "Kalkulator ini untuk alquran mushaf usmani (15 baris perhalaman)",
+                  "quran_calc_description".tr,
                   style: AppTextStyles.subtitle2,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: AppDimensions.spaceS),
+                Text(
+                  "quran_calc_additional_description".tr,
+                  style: AppTextStyles.overline,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: AppDimensions.spaceXXL),
                 TextFieldCustom(
-                  hint: "Target khatam dalam 1 bulan",
+                  hint: "quran_calc_target_hint".tr,
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
                     context.read<QuranCalcBloc>().add(UpdateTarget(value));
@@ -63,7 +70,7 @@ class _QuranCalcView extends StatelessWidget {
                 ),
                 SizedBox(height: AppDimensions.spaceM),
                 TextFieldCustom(
-                  hint: "Total hari dalam 1 bulan",
+                  hint: "quran_calc_total_day_hint".tr,
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
                     context.read<QuranCalcBloc>().add(UpdateTotalDays(value));
@@ -71,7 +78,7 @@ class _QuranCalcView extends StatelessWidget {
                 ),
                 SizedBox(height: AppDimensions.spaceM),
                 TextFieldCustom(
-                  hint: "Membaca quran dalam 1 hari",
+                  hint: "quran_calc_read_a_day_hint".tr,
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
                     context.read<QuranCalcBloc>().add(UpdateTimesPerDay(value));
@@ -94,21 +101,25 @@ class _QuranCalcView extends StatelessWidget {
                         : '-';
 
                     return SummaryCard(
-                      title: "Hasil",
+                      title: "result".tr,
                       items: [
                         SummaryItem(
                           icon: Icons.menu_book_outlined,
-                          label: "Halaman per Hari",
+                          label: "pages_a_day".tr,
                           value: pagesPerDay,
                         ),
                         SummaryItem(
                           icon: Icons.alarm_rounded,
-                          label: "Per waktu (${timesPerDay}x sehari)",
-                          value: "$pagesPerTime halaman",
+                          label: "per_time_x_day".trParams({
+                            "0": timesPerDay.toString(),
+                          }),
+                          value: "xx_page".trParams({
+                            "0": pagesPerTime.toString(),
+                          }),
                         ),
                         SummaryItem(
                           icon: Icons.calendar_today_outlined,
-                          label: "Total hari",
+                          label: "total_day".tr,
                           value: totalDays,
                         ),
                       ],

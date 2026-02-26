@@ -13,5 +13,16 @@
   "ayah": "{0} ayat",
   "no_data_available": "Tidak ada data tersedia",
   "no_latest_read_surah": "Tidak ada surah terakhir dibaca",
-  "no_bookmarked_surah": "Tidak ada surah yang ditandai"
+  "no_bookmarked_surah": "Tidak ada surah yang ditandai",
+  "quran_calc_title": "Kalkulator Baca Al-Quran",
+  "quran_calc_description": "Kalkulator untuk menghitung target Anda dalam menyelesaikan pembacaan Al-Qur'an.",
+  "quran_calc_additional_description": "Kalkulator ini untuk alquran mushaf usmani (15 baris perhalaman)",
+  "quran_calc_target_hint": "Target khatam dalam 1 bulan",
+  "quran_calc_total_day_hint": "Total hari dalam 1 bulan",
+  "quran_calc_read_a_day_hint": "Membaca quran dalam 1 hari",
+  "result": "Hasil",
+  "pages_a_day": "Halaman per Hari",
+  "per_time_x_day": "Per waktu ({0}x sehari)",
+  "xx_page": "{0} halaman",
+  "total_day": "Total hari"
 }

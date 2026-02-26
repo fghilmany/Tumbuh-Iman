@@ -13,5 +13,16 @@
   "ayah": "{0} ayah",
   "no_data_available": "No data available",
   "no_latest_read_surah": "No latest read surah",
-  "no_bookmarked_surah": "No bookmarked surah"
+  "no_bookmarked_surah": "No bookmarked surah",
+  "quran_calc_title": "Read Quran Calculator",
+  "quran_calc_description": "Calculator to calculate your target in completing the reading of the Qur'an.",
+  "quran_calc_additional_description": "This calculator is for the Usmani Mushaf Qur'an (15 lines per page)",
+  "quran_calc_target_hint": "Target khatam in 1 month",
+  "quran_calc_total_day_hint": "Total days in 1 month",
+  "quran_calc_read_a_day_hint": "Reading quran in 1 day",
+  "result": "Result",
+  "pages_a_day": "Pages per Day",
+  "per_time_x_day": "Per time ({0}x a day)",
+  "xx_page": "{0} pages",
+  "total_day": "Total days"
 }
