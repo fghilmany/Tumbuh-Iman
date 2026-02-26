@@ -1,35 +1,47 @@
 import 'package:equatable/equatable.dart';
 
 class QuranCalcState extends Equatable {
-  const QuranCalcState();
+  final String target;
+  final String totalDays;
+  final String timesPerDay;
+  final double pagesPerDay;
+  final double pagesPerTime;
+  final bool hasResult;
+
+  const QuranCalcState({
+    this.target = '',
+    this.totalDays = '',
+    this.timesPerDay = '',
+    this.pagesPerDay = 0,
+    this.pagesPerTime = 0,
+    this.hasResult = false,
+  });
+
+  QuranCalcState copyWith({
+    String? target,
+    String? totalDays,
+    String? timesPerDay,
+    double? pagesPerDay,
+    double? pagesPerTime,
+    bool? hasResult,
+  }) {
+    return QuranCalcState(
+      target: target ?? this.target,
+      totalDays: totalDays ?? this.totalDays,
+      timesPerDay: timesPerDay ?? this.timesPerDay,
+      pagesPerDay: pagesPerDay ?? this.pagesPerDay,
+      pagesPerTime: pagesPerTime ?? this.pagesPerTime,
+      hasResult: hasResult ?? this.hasResult,
+    );
+  }
 
   @override
-  List<Object?> get props => [];
-
-}
-
-class QuranCalcInitial extends QuranCalcState {
-  const QuranCalcInitial();
-}
-
-class QuranCalcLoading extends QuranCalcState {
-  const QuranCalcLoading();
-}
-
-class QuranCalcLoaded extends QuranCalcState {
-  final int result;
-
-  const QuranCalcLoaded(this.result);
-
-  @override
-  List<Object?> get props => [result];
-}
-
-class QuranCalcError extends QuranCalcState {
-  final String message;
-
-  const QuranCalcError(this.message);
-
-  @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [
+        target,
+        totalDays,
+        timesPerDay,
+        pagesPerDay,
+        pagesPerTime,
+        hasResult,
+      ];
 }

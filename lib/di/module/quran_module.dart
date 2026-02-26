@@ -8,6 +8,8 @@ import 'package:tumbuh_iman/data/remote/quran/quran_remote_data_source_impl.dart
 import 'package:tumbuh_iman/data/repositories/quran/quran_repository_impl.dart';
 import 'package:tumbuh_iman/data/repositories/quran/quran_store_caching_decorator.dart';
 import 'package:tumbuh_iman/domain/repositories/quran/quran_repository.dart';
+import 'package:tumbuh_iman/usecase/quran/calculate_quran_reading_use_case.dart';
+import 'package:tumbuh_iman/usecase/quran/calculate_quran_reading_use_case_impl.dart';
 import 'package:tumbuh_iman/usecase/quran/get_quran_use_case.dart';
 import 'package:tumbuh_iman/usecase/quran/get_quran_use_case_impl.dart';
 
@@ -19,6 +21,11 @@ abstract class QuranModule {
   @lazySingleton
   GetQuranUseCase provideQuranUseCase(QuranRepository repository) {
     return GetQuranUseCaseImpl(repository);
+  }
+
+  @lazySingleton
+  CalculateQuranReadingUseCase provideCalculateQuranReadingUseCase() {
+    return CalculateQuranReadingUseCaseImpl();
   }
 
   @lazySingleton

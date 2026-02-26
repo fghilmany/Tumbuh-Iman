@@ -5,14 +5,31 @@ class QuranCalcEvent extends Equatable {
 
   @override
   List<Object?> get props => [];
-
 }
 
-class CalculateValue extends QuranCalcEvent {
-  final int inputValue;
+class UpdateTarget extends QuranCalcEvent {
+  final String value;
 
-  const CalculateValue(this.inputValue);
+  const UpdateTarget(this.value);
 
   @override
-  List<Object?> get props => [inputValue];
+  List<Object?> get props => [value];
+}
+
+class UpdateTotalDays extends QuranCalcEvent {
+  final String value;
+
+  const UpdateTotalDays(this.value);
+
+  @override
+  List<Object?> get props => [value];
+}
+
+class UpdateTimesPerDay extends QuranCalcEvent {
+  final String value;
+
+  const UpdateTimesPerDay(this.value);
+
+  @override
+  List<Object?> get props => [value];
 }
