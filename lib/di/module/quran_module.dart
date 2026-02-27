@@ -12,6 +12,8 @@ import 'package:tumbuh_iman/usecase/quran/calculate_quran_reading_use_case.dart'
 import 'package:tumbuh_iman/usecase/quran/calculate_quran_reading_use_case_impl.dart';
 import 'package:tumbuh_iman/usecase/quran/get_quran_use_case.dart';
 import 'package:tumbuh_iman/usecase/quran/get_quran_use_case_impl.dart';
+import 'package:tumbuh_iman/usecase/quran/set_quran_use_case.dart';
+import 'package:tumbuh_iman/usecase/quran/set_quran_use_case_impl.dart';
 
 import '../../data/local/database/app_database.dart';
 
@@ -19,8 +21,12 @@ import '../../data/local/database/app_database.dart';
 abstract class QuranModule {
   // Define Quran-specific third-party dependencies here
   @lazySingleton
-  GetQuranUseCase provideQuranUseCase(QuranRepository repository) {
+  GetQuranUseCase provideGetQuranUseCase(QuranRepository repository) {
     return GetQuranUseCaseImpl(repository);
+  }
+  @lazySingleton
+  SetQuranUseCase provideSetQuranUseCase(QuranRepository repository) {
+    return SetQuranUseCaseImpl(repository);
   }
 
   @lazySingleton

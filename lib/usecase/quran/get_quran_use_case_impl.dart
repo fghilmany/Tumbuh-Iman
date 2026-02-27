@@ -20,16 +20,6 @@ class GetQuranUseCaseImpl implements GetQuranUseCase {
   }
 
   @override
-  Future<Result<void>> setBookmarkStatus(int surahNumber, bool isBookmarked) {
-    return _quranRepository.setBookmarkStatus(surahNumber, isBookmarked);
-  }
-
-  @override
-  Future<Result<void>> setLastReadSurah(int surahNumber, {int? ayahNumber}) {
-    return _quranRepository.setLastReadSurah(surahNumber, ayahNumber: ayahNumber);
-  }
-
-  @override
   Future<Result<int>> getBookmarkedSurahId() {
     return _quranRepository.getBookmarkedSurahId();
   }

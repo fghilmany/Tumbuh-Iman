@@ -7,12 +7,14 @@ import 'package:tumbuh_iman/core/utils/result.dart';
 import 'package:tumbuh_iman/presentation/features/quran/detail/bloc/quran_detail_event.dart';
 import 'package:tumbuh_iman/presentation/features/quran/detail/bloc/quran_detail_state.dart';
 import 'package:tumbuh_iman/usecase/quran/get_quran_use_case.dart';
+import 'package:tumbuh_iman/usecase/quran/set_quran_use_case.dart';
 
 @injectable
 class QuranDetailBloc extends Bloc<QuranDetailEvent, QuranDetailState> {
   final GetQuranUseCase _getQuranUseCase;
+  final SetQuranUseCase _setQuranUseCaseQuranUseCase;
 
-  QuranDetailBloc(this._getQuranUseCase) : super(const QuranDetailInitial()) {
+  QuranDetailBloc(this._getQuranUseCase, this._setQuranUseCaseQuranUseCase) : super(const QuranDetailInitial()) {
     on<LoadAyahList>(_onLoadAyahList);
     on<PlayAyahAudio>(_onPlayAyahAudio);
     on<StopAyahAudio>(_onStopAyahAudio);
@@ -44,7 +46,7 @@ class QuranDetailBloc extends Bloc<QuranDetailEvent, QuranDetailState> {
     emit(const QuranDetailLoading());
 
     // Store last read surah every time detail is opened
-    await _getQuranUseCase.setLastReadSurah(event.surahId);
+    await _setQuranUseCaseQuranUseCase.setLastReadSurah(event.surahId);
 
     final result = await _getQuranUseCase.getSurahById(event.surahId);
 
@@ -75,7 +77,7 @@ class QuranDetailBloc extends Bloc<QuranDetailEvent, QuranDetailState> {
     if (currentState is! QuranDetailLoaded) return;
     final newBookmarkStatus = !currentState.isBookmarked;
     emit(currentState.copyWith(isBookmarked: newBookmarkStatus));
-    await _getQuranUseCase.setBookmarkStatus(event.surahId, newBookmarkStatus);
+    await _setQuranUseCaseQuranUseCase.setBookmarkStatus(event.surahId, newBookmarkStatus);
   }
 
   Future<void> _onPlayAyahAudio(
